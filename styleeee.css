@@ -1,0 +1,122 @@
+/* tous les liens */
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* div qui a class="page" */
+.page {
+  display: flex;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.colonne-de-gauche {
+  width: 200px;
+}
+
+.colonne-de-gauche nav ul {
+  list-style: none;
+}
+
+.colonne-de-gauche nav ul li {
+  margin-bottom: 20px;
+}
+.colonne-de-gauche nav ul li a {
+  color: black;
+}
+
+.colonne-de-gauche button {
+  background: #1da1f2;
+  color: white;
+  border: none;
+  padding: 10px 40px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.colonne-de-droite {
+  width: 200px;
+  color: grey;
+  padding-left: 30px;
+}
+
+.colonne-de-droite nav ul {
+  list-style: none;
+  padding: 0;
+}
+.colonne-de-droite nav ul li {
+  display: inline;
+}
+/* Seulement les liens qui sont dans la colonne de droite */
+.colonne-de-droite a {
+  color: grey;
+}
+
+main {
+  flex: 1;
+}
+
+main .zone-de-recherche {
+  text-align: center;
+  border: 1px solid rgb(209, 223, 214);
+  border-top: none;
+  padding: 10px;
+}
+
+main .zone-de-recherche input {
+  width: 60%;
+  background: rgb(239, 243, 244);
+  color: black;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 20px;
+}
+
+main .zone-de-recherche nav ul {
+  list-style: none;
+  display: flex;
+  padding: 0px;
+}
+main .zone-de-recherche nav ul li {
+  flex: 1;
+  padding-bottom: 15px;
+}
+
+main .zone-de-recherche nav ul li a {
+  color: black;
+}
+
+li.menu-courant {
+  font-weight: bold;
+  /*border-bottom: [largeur] [style] [couleur]*/
+  border-bottom: 4px solid #1da1f2;
+}
+
+main ul {
+  list-style: none;
+  padding: 0;
+}
+article {
+  display: flex;
+}
+
+article aside {
+  width: 100px;
+}
+article aside img {
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+article main header {
+  color:grey;
+}
+article main header b{
+  color:black;
+}
+article main a {
+  color: #1da1f2;
+}
