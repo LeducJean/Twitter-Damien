@@ -130,6 +130,8 @@
 
       <ul>
         <li>
+
+
           <!-- debut d'un tweet -->
           <article>
             <aside>
@@ -140,7 +142,7 @@
             <main>
               <!-- ici le contenu du tweet -->
               <header>
-                <b>Rémy GALLINA</b>
+                <b>gallina</b>
                 <span>@gallina</span>
                 <date>15 jui. 2018</date>
               </header>
@@ -149,6 +151,8 @@
             </main>
           </article>
           <!-- fin d'un tweet -->
+
+
         </li>
         <li></li>
       </ul>
