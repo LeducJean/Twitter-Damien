@@ -12,6 +12,8 @@
 </head>
 
 <body>
+
+
   <!-- partial:index.partial.html -->
   <div class="page">
     <aside class="colonne-de-gauche">
@@ -142,8 +144,14 @@
             <main>
               <!-- ici le contenu du tweet -->
               <header>
-                <b>gallina</b>
-                <span>@gallina</span>
+                <b>
+                  <?php
+                  $pseudoUser = "SELECT user.logname FROM connexion INNER JOIN user ON connexion.user_id = user.id WHERE connexion.id = <id de la connexion>";                  
+                  ?>
+                </b>
+                <span>
+                  <!-- identifiant @... -->
+                </span>
                 <date>15 jui. 2018</date>
               </header>
               <p>Champions du monde ! Bravo à nos bleus ⚽✨🎉 <a href="">#France2018</a> <a
