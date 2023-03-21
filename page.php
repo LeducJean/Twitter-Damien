@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>CodePen - Un exemple de mise en page - Gilles FRANCOIS</title>
-  <link rel="stylesheet" href="styleeee.css">
+  <link rel="stylesheet" href="pagetweeter.css">
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.css'>
   <link rel='stylesheet' href='https://codepen.io/a-mt/pen/VdoWRK.css'>
-  <link rel="stylesheet" href="pagestyle.css">
+  <link rel="stylesheet" href="pagetweet.css">
 
 </head>
 
@@ -102,7 +102,7 @@
               </div>
             </div>
           </div>
-        
+
 
         </div>
 
@@ -173,14 +173,14 @@
 
   <script src="boutontweeter.js"></script>
 
-    <!-- partial -->
-    <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
-          <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-          <script
-            src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
-          <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
-          <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
-          <script src="pagescript.js"></script>
+  <!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
+  <script
+    src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+  <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
+  <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
+  <script src="pagescript.js"></script>
 
 </body>
 

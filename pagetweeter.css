@@ -2,6 +2,7 @@
 a {
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
@@ -24,6 +25,7 @@ a:hover {
 .colonne-de-gauche nav ul li {
   margin-bottom: 20px;
 }
+
 .colonne-de-gauche nav ul li a {
   color: black;
 }
@@ -47,9 +49,11 @@ a:hover {
   list-style: none;
   padding: 0;
 }
+
 .colonne-de-droite nav ul li {
   display: inline;
 }
+
 /* Seulement les liens qui sont dans la colonne de droite */
 .colonne-de-droite a {
   color: grey;
@@ -80,6 +84,7 @@ main .zone-de-recherche nav ul {
   display: flex;
   padding: 0px;
 }
+
 main .zone-de-recherche nav ul li {
   flex: 1;
   padding-bottom: 15px;
@@ -99,6 +104,7 @@ main ul {
   list-style: none;
   padding: 0;
 }
+
 article {
   display: flex;
 }
@@ -106,17 +112,20 @@ article {
 article aside {
   width: 100px;
 }
+
 article aside img {
   border-radius: 100%;
   object-fit: cover;
 }
 
 article main header {
-  color:grey;
+  color: grey;
 }
-article main header b{
-  color:black;
+
+article main header b {
+  color: black;
 }
+
 article main a {
   color: #1da1f2;
 }
@@ -152,6 +161,7 @@ body {
   height: 100vh;
   transition: visibility 0.4s;
 }
+
 .modal-container.active {
   /* display: block; */
   visibility: visible;
@@ -165,6 +175,7 @@ body {
   background: #333333d3;
   transition: opacity 0.4s 0.2s ease-out;
 }
+
 .modal-container.active .overlay {
   opacity: 1;
   transition: opacity 0.4s ease-out;
@@ -183,15 +194,16 @@ body {
   left: 50%;
   transform: translate(-50%, calc(-50% - 50px));
   transition: opacity 0.4s ease-out,
-  transform 0.4s ease-out;
+    transform 0.4s ease-out;
 }
 
 .modal-container.active .modal {
   opacity: 1;
   transform: translate(-50%, -50%);
   transition: opacity 0.4s 0.2s ease-out,
-  transform 0.4s 0.2s ease-out;
+    transform 0.4s 0.2s ease-out;
 }
+
 .close-modal {
   padding: 8px 10px;
   border: none;
@@ -204,11 +216,13 @@ body {
   background: #ff365e;
   color: #fff;
 }
+
 .modal h1 {
   margin-bottom: 10px;
   font-family: Montserrat, sans-serif;
   font-weight: 500;
 }
+
 .modal p {
   line-height: 1.4;
   margin-bottom: 5px;
