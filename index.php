@@ -6,7 +6,7 @@
 	<title>login</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
 	<link rel='stylesheet' href='https://unicons.iconscout.com/release/v2.1.9/css/unicons.css'>
-	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="indexstyle.css">
 
 </head>
 
@@ -85,8 +85,6 @@
 <!-- partial:index.partial.html -->
 <canvas id="canvas"></canvas>
 <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/101/three.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.5/dat.gui.min.js'></script><script type="module" src="./scriptt.js"></script>
 
 
 
@@ -168,7 +166,9 @@
 	}
 
 	?>
-	<script src="./script.js"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/101/three.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.5/dat.gui.min.js'></script><script type="module" src="paillettesouris.js"></script>
 
 </body>
 

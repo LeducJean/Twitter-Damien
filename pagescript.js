@@ -1,5 +1,5 @@
 /** @jsx h */
-'use strict';function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+'use strict'; function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 if (typeof h == 'undefined') {
   const { h, Component, render } = preact;
 }
@@ -32,10 +32,11 @@ var TwitterEditor = {
 
     // Init codeMirror
     var textarea = document.body.querySelector(".rich-editor"),
-    editor = CodeMirror.fromTextArea(textarea, {
-      lineNumbers: false,
-      scrollbarStyle: "null",
-      lineWrapping: true });
+      editor = CodeMirror.fromTextArea(textarea, {
+        lineNumbers: false,
+        scrollbarStyle: "null",
+        lineWrapping: true
+      });
 
     TwitterEditor.editor = editor;
 
@@ -62,7 +63,7 @@ var TwitterEditor = {
   // Replace raw emoji with image
   formatPastedContent: function (cm, e) {
     var line = e.from.line,
-    ch = e.from.ch;
+      ch = e.from.ch;
 
     for (var i = 0; i < e.text.length; i++) {
       twemoji.replace(e.text[i], function (char, capture, pos) {
@@ -74,7 +75,8 @@ var TwitterEditor = {
           "className": "cm-emoji",
           "callback": function (icon, options) {
             url = ''.concat(options.base, options.size, '/', icon, options.ext);
-          } });
+          }
+        });
 
 
         var node = document.createElement("img");
@@ -83,9 +85,9 @@ var TwitterEditor = {
 
         // Display img instead of char
         cm.markText(
-        { line: line, ch: ch + pos },
-        { line: line, ch: ch + pos + char.length },
-        { replacedWith: node, clearWhenEmpty: false });
+          { line: line, ch: ch + pos },
+          { line: line, ch: ch + pos + char.length },
+          { replacedWith: node, clearWhenEmpty: false });
 
       });
 
@@ -102,7 +104,7 @@ var TwitterEditor = {
 
   addEmoji: function (char, imgUrl) {
     var unicode = String.fromCodePoint.apply(
-    null, char.split('-').map(c => parseInt("0x" + c)));
+      null, char.split('-').map(c => parseInt("0x" + c)));
 
 
     // Emoji value for copy
@@ -121,10 +123,11 @@ var TwitterEditor = {
     }
 
     var from = cm.getCursor("from"),
-    to = cm.getCursor("to"),
-    mark = cm.markText(from, to, {
-      replacedWith: node,
-      clearWhenEmpty: false });
+      to = cm.getCursor("to"),
+      mark = cm.markText(from, to, {
+        replacedWith: node,
+        clearWhenEmpty: false
+      });
 
     cm.focus();
     cm.setCursor(to);
@@ -136,23 +139,24 @@ var TwitterEditor = {
   initMode: function () {
     CodeMirror.defineMode("twitter", function () {
       var TOKENS = [
-      { regex: /https?:\/\/[^ \n]+[^ \n.,;:?!&'"’”)}\]]/, token: "link" },
-      { regex: /@\w+/, token: "link" }, // mention
-      { regex: /#\w+/, token: "link" } // hashtag
+        { regex: /https?:\/\/[^ \n]+[^ \n.,;:?!&'"’”)}\]]/, token: "link" },
+        { regex: /@\w+/, token: "link" }, // mention
+        { regex: /#\w+/, token: "link" } // hashtag
       ];
 
       return {
         token: function (stream) {
           for (var i = 0; i < TOKENS.length; i++) {
             var rule = TOKENS[i],
-            matches = stream.match(rule.regex);
+              matches = stream.match(rule.regex);
             if (matches) {
               return rule.token;
             }
           }
           stream.next();
           return null;
-        } };
+        }
+      };
 
     });
   },
@@ -160,8 +164,8 @@ var TwitterEditor = {
   // Change letter count
   handleChange: function (stream) {
     var lineNo = 0,
-    ttchars = 0,
-    exceed = false;
+      ttchars = 0,
+      exceed = false;
 
     // Loop lines
     stream.doc.iter(function (line) {
@@ -172,7 +176,7 @@ var TwitterEditor = {
       // Normalize text with Normalization Form C (NFC)
       // https://developer.twitter.com/en/docs/basics/counting-characters
       var text = line.text.normalize(),
-      nchars = TwitterEditor.weight(text);
+        nchars = TwitterEditor.weight(text);
 
       // Because links are replaced with t.co links, we only count 22 (http) or 23 (https) characters
       // https://www.dougv.com/2015/09/counting-the-number-of-characters-in-a-tweet-via-net/
@@ -180,7 +184,7 @@ var TwitterEditor = {
       if (links) {
         for (var i = 0; i < links.length; i++) {
           var olength = links[i].length,
-          rlength = links[i].substr(0, 5) == "https" ? 23 : 22;
+            rlength = links[i].substr(0, 5) == "https" ? 23 : 22;
           nchars += rlength - olength;
         }
       }
@@ -224,16 +228,17 @@ var TwitterEditor = {
       var code = char.codePointAt(0);
 
       if (code <= 4351 ||
-      code >= 8192 && code <= 8205 ||
-      code >= 8208 && code <= 8223 ||
-      code >= 8242 && code <= 8247) {
+        code >= 8192 && code <= 8205 ||
+        code >= 8208 && code <= 8223 ||
+        code >= 8242 && code <= 8247) {
         s++;
       } else {
         s += 2;
       }
     }
     return s;
-  } };
+  }
+};
 
 
 // Handles the character counter of the editor
@@ -241,29 +246,34 @@ class CharacterCounter extends Component {
 
 
   constructor() {
-    super();_defineProperty(this, "state", { nbChars: 0, nbMax: 280 });_defineProperty(this, "setCount",
+    super(); _defineProperty(this, "state", { nbChars: 0, nbMax: 280 }); _defineProperty(this, "setCount",
 
 
 
-    nbChars => {
-      this.setState({ nbChars: nbChars });
-    });this.setCount = this.setCount.bind(this);}
+      nbChars => {
+        this.setState({ nbChars: nbChars });
+      }); this.setCount = this.setCount.bind(this);
+  }
 
-  render({}, { nbChars, nbMax }) {
+  render({ }, { nbChars, nbMax }) {
     var warn = nbChars + 20 >= nbMax,
-    circ = 50.2655; // circonférence du cercle = 2*PI*r;
+      circ = 50.2655; // circonférence du cercle = 2*PI*r;
     return (
       h("div", { title: nbChars + "/280" },
-      h("div", { class: "js-countdown-counter tweet-counter" + (nbChars > nbMax ? " is-maxReached" : "") },
-      warn ? nbMax - nbChars : ""),
+        h("div", { class: "js-countdown-counter tweet-counter" + (nbChars > nbMax ? " is-maxReached" : "") },
+          warn ? nbMax - nbChars : ""),
 
-      h("svg", { class: "RadialCounter js-radial-counter", height: "20", width: "20" },
-      h("circle", { class: "RadialCounter-progressUnderlay", cx: "50%", cy: "50%", r: "8", fill: "none", "stroke-width": "1" }),
-      h("circle", { class: "js-progress-circle RadialCounter--" + (nbChars >= nbMax ? "danger" : warn ? "warn" : "safe"), cx: "50%", cy: "50%", r: "8", fill: "none", "stroke-width": "2", style: {
-          "stroke-dashoffset": nbChars >= nbMax ? circ : (circ - circ * nbChars / nbMax).toPrecision(4),
-          "stroke-dasharray": circ } }))));
+        h("svg", { class: "RadialCounter js-radial-counter", height: "20", width: "20" },
+          h("circle", { class: "RadialCounter-progressUnderlay", cx: "50%", cy: "50%", r: "8", fill: "none", "stroke-width": "1" }),
+          h("circle", {
+            class: "js-progress-circle RadialCounter--" + (nbChars >= nbMax ? "danger" : warn ? "warn" : "safe"), cx: "50%", cy: "50%", r: "8", fill: "none", "stroke-width": "2", style: {
+              "stroke-dashoffset": nbChars >= nbMax ? circ : (circ - circ * nbChars / nbMax).toPrecision(4),
+              "stroke-dasharray": circ
+            }
+          }))));
 
 
 
 
-  }}
+  }
+}
