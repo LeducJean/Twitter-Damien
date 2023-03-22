@@ -143,7 +143,7 @@
               <header>
                 <b>
                   <?php
-                  $pseudoUser = "SELECT user.logname FROM connexion INNER JOIN user ON connexion.user_id = user.id WHERE connexion.id = <id de la connexion>";
+                  $pseudoUser = "SELECT ";
                   ?>
                 </b>
                 <span>
@@ -155,6 +155,7 @@
             </main>
           </article>
           <!-- fin d'un tweet -->
+          
 
 
         </li>
