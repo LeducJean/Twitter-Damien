@@ -1,17 +1,43 @@
+<?php
+session_start()
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Un exemple de mise en page - Gilles FRANCOIS</title>
+  <title></title>
   <link rel="stylesheet" href="pagetweeter.css">
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.css'>
   <link rel='stylesheet' href='https://codepen.io/a-mt/pen/VdoWRK.css'>
   <link rel="stylesheet" href="pagetweet.css">
+  <link rel="stylesheet" href="tweet.css">
 
 </head>
 
 <body>
+  <?php
+
+
+  $ipserver = "192.168.65.164";
+  $nomBase = "connexion";
+  $loginPrivilege = "root";
+  $passPrivilege = "root";
+
+  try {
+    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+
+
+    $resultat = $GLOBALS["pdo"]->query($_POST["user"]);
+
+    foreach ($results as $resultat) {
+      $id_user = $resultat['logname'];
+    }
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+  ?>
 
 
   <!-- partial:index.partial.html -->
@@ -49,7 +75,7 @@
         </div>
       </div>
 
-      <button class="modal-btn modal-trigger">Tweeter</button>
+      <button class="btn odal-btn modal-trigger">Tweeter</button>
 
       <div class="modal-container">
 
@@ -60,7 +86,7 @@
             <div class="modal-content" role="document">
               <div class="modal-header">
 
-                <button aria-label="close modal" class="close-modal modal-trigger">X</button>
+                <button aria-label="close modal" class="btn close-modal modal-trigger">X</button>
                 <h3 class="modal-title">Écrire un nouveau Tweet</h3>
               </div>
               <div class="modal-body">
@@ -69,11 +95,18 @@
                 </div>
                 <div class="tweet-box-content">
 
+
+
                   <!-- CONTENTEDITABLE -->
                   <div class="tweet-content">
                     <div class="tweet-box">
-                      <textarea class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?"></textarea>
+
+
+                    <!-- Box pour écrire numéro 1 -->
+                      <textarea class="rich-editor" spellcheck="true" name="message" placeholder="Quoi de neuf ?"></textarea>
                     </div>
+
+
 
                     <!-- REMAINING CHARACTERS -->
                     <div class="character-counter js-character-counter"></div>
@@ -92,90 +125,122 @@
                   </div>
 
                   <!-- BOTTOM TOOLBAR -->
-                  <div class="tweet-toolbar">
-                    <div class="tweet-box-extras"></div>
-                    <div class="tweet-toolbar-button">
-                      <button type="button" class="btn" disabled id="preview">Preview</button>
-                    </div>
-                  </div>
+                  <form action="" method="post">
+                    <div class="tweet-toolbar">
+                      <div class="tweet-box-extras"></div>
+                      <div class="tweet-box">
+
+
+                        <!-- Box pour écrire numéro 2 -->
+                        <input type="text" name="message" spellcheck="true" class="rich-editor" placeholder="Quoi de neuf ?">
+                      </div>
+                      <div class="tweet-toolbar-button">
+                        <input type="submit" class="btn" id="preview" name="message" value="Tweeter"></input>
+                        <div class="center-wrap">
+                          <div class="section text-center">
+                            <div class="form-group">
+                              <i class="input-icon uil uil-user"></i>
+                            </div>
+                          </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-
-
         </div>
-
       </div>
 
-    </aside>
+
+  </div>
+
+  </div>
+
+  </aside>
 
 
 
-    <main>
+  <?php
+  if (isset($_POST["message"])) {
+    $requeteMessage = "INSERT INTO `message` (`dateHeure`, `idUser`, `message`) VALUES ('" . date("y-m-d") . "', '" . $_SESSION["idUser"] . "', '" . $_POST["message"] . "')";
 
-      <div class="zone-de-recherche">
-        <input type="text" value="#france2018">
-
-        <nav>
-          <ul>
-            <li class="menu-courant"><a href="">A la une</a></li>
-            <li><a href="">Récent</a></li>
-            <li><a href="">Personnes</a></li>
-            <li><a href="">Photos</a></li>
-            <li><a href="">Vidéos</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <ul>
-        <li>
+    $result3 = $GLOBALS["pdo"]->query($requeteMessage);
+    echo $result3;
+    echo $requeteMessage;
+  }
+  ?>
 
 
-          <!-- debut d'un tweet -->
-          <article>
-            <aside>
-              <!-- ici l'avatar -->
-              <img width="60" height="60" src="https://www.ipnoze.com/wordpress/wp-content/uploads/2018/09/lapins-mignons-002.jpg">
-            </aside>
-            <main>
-              <!-- ici le contenu du tweet -->
-              <header>
-                <b>
-                  <?php
-                  $pseudoUser = "SELECT ";
-                  ?>
-                </b>
-                <span>
-                  <!-- identifiant @... -->
-                </span>
-                <date>15 jui. 2018</date>
-              </header>
-              <p>Champions du monde ! Bravo à nos bleus ⚽✨🎉 <a href="">#France2018</a> <a href="">#WorldCupFinal2018</a> <a href="">@WorldChampions</a></p>
-            </main>
-          </article>
-          <!-- fin d'un tweet -->
-          
+  <main>
 
+    <div class="zone-de-recherche">
+      <input type="text" value="#france2018">
 
-        </li>
-        <li></li>
-      </ul>
-    </main>
-
-    <aside class="colonne-de-droite">
       <nav>
         <ul>
-          <li><a href="">Conditions d'utilisations</a></li>
-          <li><a href="">Politique de confidentialité</a></li>
-          <li><a href="">Politique relative aux cookies</a></li>
-          <li><a href="">Accessibilité</a></li>
-          <li><a href="">Information sur les publicités</a></li>
-          <li><a href="">Plus...</a></li>
+          <li class="menu-courant"><a href="">A la une</a></li>
+          <li><a href="">Récent</a></li>
+          <li><a href="">Personnes</a></li>
+          <li><a href="">Photos</a></li>
+          <li><a href="">Vidéos</a></li>
         </ul>
       </nav>
-      <p>&copy; 2022 Twitter, Inc.</p>
-    </aside>
+    </div>
+
+    <ul>
+      <li>
+
+
+        <!-- debut d'un tweet -->
+
+        <head>
+          <meta charset="UTF-8">
+          <title>CodePen - Twitter tweet template</title>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+          <link rel="stylesheet" href="./style.css">
+
+        </head>
+
+        <body>
+          <!-- partial:index.partial.html -->
+
+          <div class="tw-block-parent">
+            <div class="timeline-TweetList-tweet">
+              <div class="timeline-Tweet">
+                <div class="timeline-Tweet-brand">
+                  <div class="Icon Icon--twitter"></div>
+                </div>
+                <div class="timeline-Tweet-author">
+                  <div class="TweetAuthor"><a class="TweetAuthor-link" href="#channel"> </a><span class="TweetAuthor-avatar">
+                      <div class="Avatar"> </div>
+                    </span><span class="TweetAuthor-name">JCVD</span><span class="Icon Icon--verified">
+                  </div>
+                  <div class="timeline-Tweet-text">OMG SA COMMENCE
+
+                  </div>
+                </div>
+
+              </div>
+              <!-- fin d'un tweet -->
+
+
+      </li>
+      <li></li>
+    </ul>
+  </main>
+
+  <aside class="colonne-de-droite">
+    <nav>
+      <ul>
+        <li><a href="">Conditions d'utilisations</a></li>
+        <li><a href="">Politique de confidentialité</a></li>
+        <li><a href="">Politique relative aux cookies</a></li>
+        <li><a href="">Accessibilité</a></li>
+        <li><a href="">Information sur les publicités</a></li>
+        <li><a href="">Plus...</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2022 Twitter, Inc.</p>
+  </aside>
   </div>
   <!-- partial -->
 
@@ -191,5 +256,38 @@
   <script src="pagescript.js"></script>
 
 </body>
+<?php
+// Établir une connexion à la base de données MySQL
+$servername = "192.168.65.126";
+$username = "roott";
+$password = "root";
+$dbname = "connexion";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+// Vérifier la connexion
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+
+// Écrire une requête SQL pour sélectionner les données de votre base de données
+$sql = "SELECT `id`, `dateHeure`, `idUser`, `message` FROM `message` VALUES ";
+
+// Exécuter la requête SQL et récupérer les résultats
+$result = mysqli_query($conn, $sql);
+
+// Afficher les données récupérées dans une boucle
+if (mysqli_num_rows($result) > 0) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    echo "Message: " . $row["message"] . "<br>";
+  }
+} else {
+  echo "0 results";
+}
+
+// Fermer la connexion à la base de données MySQL
+mysqli_close($conn);
+?>
+
 
 </html>
