@@ -2,13 +2,13 @@
   <b>
     <?php
     //SELECT * FROM `user` WHERE `logname` = 'root' AND `logpass` = 'roote';
-    
-    if(isset($_POST["logname"])){
-      
-      echo'jeanclaude';
+
+    if (isset($_POST["logname"])) {
+
+      echo 'jeanclaude';
     }
-    $result = "SELECT * FROM user WHERE logname='".$_POST["logname"]."' AND logpass='".$_POST["logname"]."' ";
-    $result 
+    $result = "SELECT * FROM user WHERE logname='" . $_POST["logname"] . "' AND logpass='" . $_POST["logname"] . "' ";
+    $result
     /*
     $globalbdd = pdo
     $result = $globalbdd -> query (select)
@@ -25,7 +25,7 @@
       echo tu es connecté 
     }
   */
-  
+
     ?>
   </b>
   <span>

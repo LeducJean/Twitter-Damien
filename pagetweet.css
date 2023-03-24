@@ -1,11 +1,12 @@
-
 .lignegauche {
   margin-left: 10%;
   margin-top: 10%;
 }
+
 .textgauche {
   margin-top: 25%;
 }
+
 .body {
   color: #14171a;
   font-size: 14px;
@@ -19,7 +20,7 @@
 }
 
 .modal-content {
-  margin-top: -5%;
+  margin-top: 2%;
   background-color: #fff;
   border-radius: 6px;
   background-clip: padding-box;
@@ -126,6 +127,10 @@ textarea::placeholder {
   color: #aab8c2;
 }
 
+.odal-btn {
+  margin-left: 10%;
+}
+
 /* RICH EDITOR THEME */
 .cm-s-default .cm-link {
   color: #2FC2EF;
@@ -150,6 +155,7 @@ textarea::placeholder {
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
+  margin-top: 5%;
 }
 
 .btn[disabled] {

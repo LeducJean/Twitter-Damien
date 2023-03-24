@@ -177,19 +177,20 @@
 
 
     <main>
-
       <div class="zone-de-recherche">
-        <input type="text" value="#france2018">
+        <input type="text" placeholder="Recherche Twitter">
 
-        <nav>
-          <ul>
-            <li class="menu-courant"><a href="">A la une</a></li>
-            <li><a href="">Récent</a></li>
-            <li><a href="">Personnes</a></li>
-            <li><a href="">Photos</a></li>
-            <li><a href="">Vidéos</a></li>
-          </ul>
-        </nav>
+        <div class="onglet">
+          <nav>
+            <ul>
+              <li class="menu-courant"><a href="">A la une</a></li>
+              <li><a href="">Récent</a></li>
+              <li><a href="">Personnes</a></li>
+              <li><a href="">Photos</a></li>
+              <li><a href="">Vidéos</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
 
 
@@ -250,10 +251,22 @@
                         <span class="timeline-Tweet-timestamp">9h</span>
                       </div>
                       <ul class="timeline-Tweet-actions">
-                        <li class="timeline-Tweet-action"><a class="Icon Icon--heart" href="#"></a></li>
-                        <li class="timeline-Tweet-action"><a class="Icon Icon--share" href="#"></a></li>
+                        <form method="POST">
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like"></button>
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
+                        </form>
                       </ul>
                     </div>
+
+
+                    <?php
+                    if (isset($_POST["delete"])) {
+                      $delete = "DELETE FROM `message`";
+                      $result5 = $GLOBALS["pdo"]->query($delete);
+                    }
+                    ?>
+
+
                 <?php
                   }
                 } else {

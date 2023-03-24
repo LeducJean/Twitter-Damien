@@ -1,6 +1,6 @@
 .bloctweet {
-  position:relative;
-  z-index:1;
+  position: relative;
+  z-index: 1;
 }
 
 /* tous les liens */
@@ -20,11 +20,12 @@ a:hover {
 }
 
 .colonne-de-gauche {
-  width: 200px;
+  width: 10%;
 }
 
 .colonne-de-gauche nav ul {
   list-style: none;
+  position: static;
 }
 
 .colonne-de-gauche nav ul li {
@@ -77,7 +78,7 @@ main .zone-de-recherche {
 
 main .zone-de-recherche input {
   width: 60%;
-  background: rgb(239, 243, 244);
+  background: rgb(235, 235, 235);
   color: black;
   border: none;
   padding: 10px 40px;
@@ -97,6 +98,10 @@ main .zone-de-recherche nav ul li {
 
 main .zone-de-recherche nav ul li a {
   color: black;
+}
+
+.onglet {
+  margin-top: 1%;
 }
 
 li.menu-courant {

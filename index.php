@@ -30,7 +30,7 @@
 
 
 	session_start(); //Initialisation de la session utilisateur
-	
+
 
 
 
@@ -41,7 +41,7 @@
 		$username = "roott"; // Username   //
 		$password = "root"; // Password   //
 		$dbname = "connexion"; // Nom base   //
-	
+
 		$conn = mysqli_connect($host, $username, $password, $dbname);
 
 		$user = $_POST["logemail"];
@@ -57,15 +57,9 @@
 
 
 			header('Location: page.php');
-
-
 		} else {
 			echo "information introuvable";
 		}
-
-
-
-
 	}
 
 
@@ -105,17 +99,14 @@
 												<h4 class="mb-4 pb-3">Connexion</h4>
 												<form action="" method="post">
 													<div class="form-group">
-														<input type="email" name="logemail" class="form-style"
-															placeholder="Email" id="logemail" autocomplete="off">
+														<input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
 														<i class="input-icon uil uil-at"></i>
 													</div>
 													<div class="form-group mt-2">
-														<input type="password" name="logpass" class="form-style"
-															placeholder="MotDePasse" id="logpass" autocomplete="off">
+														<input type="password" name="logpass" class="form-style" placeholder="MotDePasse" id="logpass" autocomplete="off">
 														<i class="input-icon uil uil-lock-alt"></i>
 													</div>
-													<input type="submit" class="btn mt-4" name="connexion"
-														value="Connectez-vous"></input>
+													<input type="submit" class="btn mt-4" name="connexion" value="Connectez-vous"></input>
 													<p class="mb-0 mt-4 text-center"><a href="#0" class="link">Mot de
 															passe
 															oublier ?</a></p>
@@ -131,22 +122,18 @@
 												<div class="section text-center">
 													<h4 class="mb-4 pb-3">inscription</h4>
 													<div class="form-group">
-														<input type="text" name="logname" class="form-style"
-															placeholder="Pseudo" id="logname" autocomplete="off">
+														<input type="text" name="logname" class="form-style" placeholder="Pseudo" id="logname" autocomplete="off">
 														<i class="input-icon uil uil-user"></i>
 													</div>
 													<div class="form-group mt-2">
-														<input type="email" name="logemail" class="form-style"
-															placeholder="Email" id="logemail" autocomplete="off">
+														<input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
 														<i class="input-icon uil uil-at"></i>
 													</div>
 													<div class="form-group mt-2">
-														<input type="password" name="logpass" class="form-style"
-															placeholder="MotDePasse" id="logpass" autocomplete="off">
+														<input type="password" name="logpass" class="form-style" placeholder="MotDePasse" id="logpass" autocomplete="off">
 														<i class="input-icon uil uil-lock-alt"></i>
 													</div>
-													<input type="submit" class="btn mt-4" name="inscription"
-														value="Inscription"></input>
+													<input type="submit" class="btn mt-4" name="inscription" value="Inscription"></input>
 												</div>
 												<form action="page.php" method="post">
 											</div>
