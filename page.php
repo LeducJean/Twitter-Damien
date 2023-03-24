@@ -1,7 +1,3 @@
-<?php
-session_start()
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,23 +16,24 @@ session_start()
   <?php
 
 
-  $ipserver = "192.168.65.164";
+  $ipserver = "192.168.64.57";
   $nomBase = "connexion";
   $loginPrivilege = "root";
   $passPrivilege = "root";
 
   try {
     $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-
-
+    /*
     $resultat = $GLOBALS["pdo"]->query($_POST["user"]);
 
     foreach ($results as $resultat) {
-      $id_user = $resultat['logname'];
+     $id_user = $resultat['logname'];
     }
+ */
   } catch (Exception $e) {
     echo $e->getMessage();
   }
+
   ?>
 
 
@@ -83,6 +80,7 @@ session_start()
 
           <!-- partial:index.partial.html -->
           <div class="modal">
+
             <div class="modal-content" role="document">
               <div class="modal-header">
 
@@ -95,18 +93,54 @@ session_start()
                 </div>
                 <div class="tweet-box-content">
 
-
-
                   <!-- CONTENTEDITABLE -->
                   <div class="tweet-content">
                     <div class="tweet-box">
+                      <div class="tweet-toolbar">
+                        <div class="tweet-box-extras"></div>
+                        <div class="tweet-toolbar-button">
+                          <form method="POST">
+
+                          </form>
+
+                        </div>
+                      </div>
+                      <?php
+                      session_start();
+
+                      $conn = mysqli_connect("192.168.64.57", "root", "root", "connexion");
+
+                      if (!$conn) {
+                        die("La connexion à la base de données a échoué: " . mysqli_connect_error());
+                      }
 
 
-                    <!-- Box pour écrire numéro 1 -->
-                      <textarea class="rich-editor" spellcheck="true" name="message" placeholder="Quoi de neuf ?"></textarea>
+                      if (isset($_POST['etext'])) {
+                        $texte = mysqli_real_escape_string($conn, $_POST['etext']);
+                        $dateHeure = date('Y-m-d H:i:s');
+                        $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
+
+                        $sql = "INSERT INTO `message` (`id`, `idUser`, `dateHeure`, `message`) VALUES (NULL, '$idUser', '$dateHeure', '$texte')";
+                        if (mysqli_query($conn, $sql)) {
+                          $message = "Le message a été enregistré avec succès.";
+                        } else {
+                          $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
+                        }
+                      }
+
+                      mysqli_close($conn);
+
+                      ?>
+
+                      <!-- Afficher le formulaire et le message -->
+                      <form method="POST">
+                        <?php echo $message; ?>
+                        <button type="submit" class="btn" id="preview">Publier</button>
+                        <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?">
+                      </form>
+
+
                     </div>
-
-
 
                     <!-- REMAINING CHARACTERS -->
                     <div class="character-counter js-character-counter"></div>
@@ -125,122 +159,129 @@ session_start()
                   </div>
 
                   <!-- BOTTOM TOOLBAR -->
-                  <form action="" method="post">
-                    <div class="tweet-toolbar">
-                      <div class="tweet-box-extras"></div>
-                      <div class="tweet-box">
 
-
-                        <!-- Box pour écrire numéro 2 -->
-                        <input type="text" name="message" spellcheck="true" class="rich-editor" placeholder="Quoi de neuf ?">
-                      </div>
-                      <div class="tweet-toolbar-button">
-                        <input type="submit" class="btn" id="preview" name="message" value="Tweeter"></input>
-                        <div class="center-wrap">
-                          <div class="section text-center">
-                            <div class="form-group">
-                              <i class="input-icon uil uil-user"></i>
-                            </div>
-                          </div>
-                  </form>
                 </div>
               </div>
             </div>
           </div>
+
+
         </div>
+
       </div>
 
-
-  </div>
-
-  </div>
-
-  </aside>
+    </aside>
 
 
 
-  <?php
-  if (isset($_POST["message"])) {
-    $requeteMessage = "INSERT INTO `message` (`dateHeure`, `idUser`, `message`) VALUES ('" . date("y-m-d") . "', '" . $_SESSION["idUser"] . "', '" . $_POST["message"] . "')";
+    <main>
 
-    $result3 = $GLOBALS["pdo"]->query($requeteMessage);
-    echo $result3;
-    echo $requeteMessage;
-  }
-  ?>
+      <div class="zone-de-recherche">
+        <input type="text" value="#france2018">
 
+        <nav>
+          <ul>
+            <li class="menu-courant"><a href="">A la une</a></li>
+            <li><a href="">Récent</a></li>
+            <li><a href="">Personnes</a></li>
+            <li><a href="">Photos</a></li>
+            <li><a href="">Vidéos</a></li>
+          </ul>
+        </nav>
+      </div>
 
-  <main>
-
-    <div class="zone-de-recherche">
-      <input type="text" value="#france2018">
-
-      <nav>
-        <ul>
-          <li class="menu-courant"><a href="">A la une</a></li>
-          <li><a href="">Récent</a></li>
-          <li><a href="">Personnes</a></li>
-          <li><a href="">Photos</a></li>
-          <li><a href="">Vidéos</a></li>
-        </ul>
-      </nav>
-    </div>
-
-    <ul>
-      <li>
+      <ul>
+        <li>
 
 
-        <!-- debut d'un tweet -->
+          <!-- debut d'un tweet -->
 
-        <head>
-          <meta charset="UTF-8">
-          <title>CodePen - Twitter tweet template</title>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-          <link rel="stylesheet" href="./style.css">
+          <head>
+            <meta charset="UTF-8">
+            <title>CodePen - Twitter tweet template</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+            <link rel="stylesheet" href="./style.css">
 
-        </head>
+          </head>
 
-        <body>
-          <!-- partial:index.partial.html -->
+          <body>
+            <!-- partial:index.partial.html -->
 
-          <div class="tw-block-parent">
-            <div class="timeline-TweetList-tweet">
-              <div class="timeline-Tweet">
+            <?php
+
+
+            $conn = mysqli_connect("192.168.64.57", "root", "root", "connexion");
+
+            
+            // Récupération des messages depuis la base de données
+            $sql = "SELECT * FROM message";
+            $result = mysqli_query($conn, $sql);
+
+            ?>
+          <div class="bordure">
+            <div class="tw-block-parent">
+              <div class="timeline-TweetList-tweet">
                 <div class="timeline-Tweet-brand">
                   <div class="Icon Icon--twitter"></div>
                 </div>
-                <div class="timeline-Tweet-author">
-                  <div class="TweetAuthor"><a class="TweetAuthor-link" href="#channel"> </a><span class="TweetAuthor-avatar">
-                      <div class="Avatar"> </div>
-                    </span><span class="TweetAuthor-name">JCVD</span><span class="Icon Icon--verified">
-                  </div>
-                  <div class="timeline-Tweet-text">OMG SA COMMENCE
+                <?php
+                 ?>  
+                <br>
+                <?php
+                if (mysqli_num_rows($result) > 0) {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    ?>  
+                    <br>
+          
+          
+          
+                    <div class="timeline-Tweet">
+                  
+                      <div class="timeline-Tweet-author">
+                        <div class="TweetAuthor">
+                          <a class="TweetAuthor-link" href="#channel"> </a>
+                          <span class="TweetAuthor-avatar">
+                            <div class="Avatar"> </div>
+                          </span>
+                          <span class="TweetAuthor-name">JCVD</span>
+                          <span class="Icon Icon--verified"></span>
+                        </div>
+                        <div class="timeline-Tweet-text">
+                          <?php echo $row["message"]; ?>
+                          </div> 
+                        </div>
+                      </div>
+                    </div>
+            </div> 
+                <?php
+                  }
+                } else {
+                  echo "0 results";
+                }
 
-                  </div>
-                </div>
+                // Fermer la connexion à la base de données MySQL
+                mysqli_close($conn);
+                ?>
+           
 
-              </div>
-              <!-- fin d'un tweet -->
-
-
-      </li>
-      <li></li>
-    </ul>
-  </main>
-
-  <aside class="colonne-de-droite">
-    <nav>
-      <ul>
-        <li><a href="">Conditions d'utilisations</a></li>
-        <li><a href="">Politique de confidentialité</a></li>
-        <li><a href="">Politique relative aux cookies</a></li>
-        <li><a href="">Accessibilité</a></li>
-        <li><a href="">Information sur les publicités</a></li>
-        <li><a href="">Plus...</a></li>
+        </li>
+        <li></li>
       </ul>
-    </nav>
-    <p>&copy; 2022 Twitter, Inc.</p>
-  </aside>
+    </main>
+
+    <aside class="colonne-de-droite">
+      <nav>
+        <ul>
+          <li><a href="">Conditions d'utilisations</a></li>
+          <li><a href="">Politique de confidentialité</a></li>
+          <li><a href="">Politique relative aux cookies</a></li>
+          <li><a href="">Accessibilité</a></li>
+          <li><a href="">Information sur les publicités</a></li>
+          <li><a href="">Plus...</a></li>
+        </ul>
+      </nav>
+      <p>&copy; 2022 Twitter, Inc.</p>
+    </aside>
   </div>
   <!-- partial -->
 
@@ -256,38 +297,5 @@ session_start()
   <script src="pagescript.js"></script>
 
 </body>
-<?php
-// Établir une connexion à la base de données MySQL
-$servername = "192.168.65.126";
-$username = "roott";
-$password = "root";
-$dbname = "connexion";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Vérifier la connexion
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
-// Écrire une requête SQL pour sélectionner les données de votre base de données
-$sql = "SELECT `id`, `dateHeure`, `idUser`, `message` FROM `message` VALUES ";
-
-// Exécuter la requête SQL et récupérer les résultats
-$result = mysqli_query($conn, $sql);
-
-// Afficher les données récupérées dans une boucle
-if (mysqli_num_rows($result) > 0) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    echo "Message: " . $row["message"] . "<br>";
-  }
-} else {
-  echo "0 results";
-}
-
-// Fermer la connexion à la base de données MySQL
-mysqli_close($conn);
-?>
-
 
 </html>
