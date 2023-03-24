@@ -16,7 +16,7 @@
   <?php
 
 
-  $ipserver = "192.168.64.57";
+  $ipserver = "192.168.65.164";
   $nomBase = "connexion";
   $loginPrivilege = "root";
   $passPrivilege = "root";
@@ -108,7 +108,7 @@
                       <?php
                       session_start();
 
-                      $conn = mysqli_connect("192.168.64.57", "root", "root", "connexion");
+                      $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
 
                       if (!$conn) {
                         die("La connexion à la base de données a échoué: " . mysqli_connect_error());
@@ -210,59 +210,59 @@
             <?php
 
 
-            $conn = mysqli_connect("192.168.64.57", "root", "root", "connexion");
+            $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
 
-            
+
             // Récupération des messages depuis la base de données
             $sql = "SELECT * FROM message";
             $result = mysqli_query($conn, $sql);
 
             ?>
-          <div class="bordure">
-            <div class="tw-block-parent">
-              <div class="timeline-TweetList-tweet">
-                <div class="timeline-Tweet-brand">
-                  <div class="Icon Icon--twitter"></div>
-                </div>
-                <?php
-                 ?>  
-                <br>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    ?>  
-                    <br>
-          
-          
-          
-                    <div class="timeline-Tweet">
-                  
-                      <div class="timeline-Tweet-author">
-                        <div class="TweetAuthor">
-                          <a class="TweetAuthor-link" href="#channel"> </a>
-                          <span class="TweetAuthor-avatar">
-                            <div class="Avatar"> </div>
-                          </span>
-                          <span class="TweetAuthor-name">JCVD</span>
-                          <span class="Icon Icon--verified"></span>
-                        </div>
-                        <div class="timeline-Tweet-text">
-                          <?php echo $row["message"]; ?>
-                          </div> 
+            <div class="bordure">
+              <div class="tw-block-parent">
+                <div class="timeline-TweetList-tweet">
+                  <div class="timeline-Tweet-brand">
+                    <div class="Icon Icon--twitter"></div>
+                  </div>
+                  <?php
+                  ?>
+                  <br>
+                  <?php
+                  if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                      <br>
+
+
+
+                      <div class="timeline-Tweet">
+
+                        <div class="timeline-Tweet-author">
+                          <div class="TweetAuthor">
+                            <a class="TweetAuthor-link" href="#channel"> </a>
+                            <span class="TweetAuthor-avatar">
+                              <div class="Avatar"> </div>
+                            </span>
+                            <span class="TweetAuthor-name">JCVD</span>
+                            <span class="Icon Icon--verified"></span>
+                          </div>
+                          <div class="timeline-Tweet-text">
+                            <?php echo $row["message"]; ?>
+                          </div>
                         </div>
                       </div>
-                    </div>
-            </div> 
-                <?php
+                </div>
+              </div>
+          <?php
+                    }
+                  } else {
+                    echo "0 results";
                   }
-                } else {
-                  echo "0 results";
-                }
 
-                // Fermer la connexion à la base de données MySQL
-                mysqli_close($conn);
-                ?>
-           
+                  // Fermer la connexion à la base de données MySQL
+                  mysqli_close($conn);
+          ?>
+
 
         </li>
         <li></li>
