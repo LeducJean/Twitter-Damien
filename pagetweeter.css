@@ -1,3 +1,8 @@
+.bloctweet {
+  position:relative;
+  z-index:1;
+}
+
 /* tous les liens */
 a {
   text-decoration: none;

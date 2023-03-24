@@ -16,20 +16,19 @@
   <?php
 
 
-  $ipserver = "192.168.65.164";
+  $ipserver = "192.168.65.126";
   $nomBase = "connexion";
-  $loginPrivilege = "root";
+  $loginPrivilege = "roott";
   $passPrivilege = "root";
 
   try {
     $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
     /*
     $resultat = $GLOBALS["pdo"]->query($_POST["user"]);
-
     foreach ($results as $resultat) {
-     $id_user = $resultat['logname'];
+    $id_user = $resultat['logname'];
     }
- */
+    */
   } catch (Exception $e) {
     echo $e->getMessage();
   }
@@ -73,74 +72,77 @@
       </div>
 
       <button class="btn odal-btn modal-trigger">Tweeter</button>
+      <div class=bloctweet>
+        <div class="modal-container">
 
-      <div class="modal-container">
+          <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="dialogDesc">
 
-        <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="dialogDesc">
+            <!-- partial:index.partial.html -->
+            <div class="modal">
 
-          <!-- partial:index.partial.html -->
-          <div class="modal">
+              <div class="modal-content" role="document">
+                <div class="modal-header">
 
-            <div class="modal-content" role="document">
-              <div class="modal-header">
-
-                <button aria-label="close modal" class="btn close-modal modal-trigger">X</button>
-                <h3 class="modal-title">Écrire un nouveau Tweet</h3>
-              </div>
-              <div class="modal-body">
-                <div class="tweet-box-avatar">
-                  <img class="avatar" src="http://placehold.it/32x32">
+                  <button aria-label="close modal" class="btn close-modal modal-trigger">X</button>
+                  <h3 class="modal-title">Écrire un nouveau Tweet</h3>
                 </div>
-                <div class="tweet-box-content">
+                <div class="modal-body">
+                  <div class="tweet-box-avatar">
+                    <img class="avatar" src="http://placehold.it/32x32">
+                  </div>
+                  <div class="tweet-box-content">
 
-                  <!-- CONTENTEDITABLE -->
-                  <div class="tweet-content">
-                    <div class="tweet-box">
-                      <div class="tweet-toolbar">
-                        <div class="tweet-box-extras"></div>
-                        <div class="tweet-toolbar-button">
-                          <form method="POST">
+                    <!-- CONTENTEDITABLE -->
+                    <div class="tweet-content">
+                      <div class="tweet-box">
+                        <div class="tweet-toolbar">
+                          <div class="tweet-box-extras"></div>
+                          <div class="tweet-toolbar-button">
+                            <form method="POST">
 
-                          </form>
+                            </form>
 
+                          </div>
                         </div>
-                      </div>
-                      <?php
-                      session_start();
+                        <?php
+                        session_start();
 
-                      $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
+                        $conn = mysqli_connect("192.168.65.126", "roott", "root", "connexion");
 
-                      if (!$conn) {
-                        die("La connexion à la base de données a échoué: " . mysqli_connect_error());
-                      }
-
-
-                      if (isset($_POST['etext'])) {
-                        $texte = mysqli_real_escape_string($conn, $_POST['etext']);
-                        $dateHeure = date('Y-m-d H:i:s');
-                        $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
-
-                        $sql = "INSERT INTO `message` (`id`, `idUser`, `dateHeure`, `message`) VALUES (NULL, '$idUser', '$dateHeure', '$texte')";
-                        if (mysqli_query($conn, $sql)) {
-                          $message = "Le message a été enregistré avec succès.";
-                        } else {
-                          $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
+                        if (!$conn) {
+                          die("La connexion à la base de données a échoué: " . mysqli_connect_error());
                         }
-                      }
 
-                      mysqli_close($conn);
 
-                      ?>
+                        if (isset($_POST['etext'])) {
+                          $texte = mysqli_real_escape_string($conn, $_POST['etext']);
+                          $dateHeure = date('Y-m-d H:i:s');
+                          $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
 
-                      <!-- Afficher le formulaire et le message -->
-                      <form method="POST">
-                        <?php echo $message; ?>
-                        <button type="submit" class="btn" id="preview">Publier</button>
-                        <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?">
+                          $sql = "INSERT INTO `message` (`id`, `idUser`, `dateHeure`, `message`) VALUES (NULL, '$idUser', '$dateHeure', '$texte')";
+                          if (mysqli_query($conn, $sql)) {
+                            $message = "Le message a été enregistré avec succès.";
+                          } else {
+                            $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
+                          }
+                        }
+
+                        mysqli_close($conn);
+
+                        ?>
+
+                        <!-- Afficher le formulaire et le message -->
+                        <form method="POST">
+                          <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?">
+                      </div>
+                      <button type="submit" class="btn" id="preview">Publier</button>
+
                       </form>
-
-
+                      <div>
+                        <?php echo $message; ?>
+                      </div>
                     </div>
+
 
                     <!-- REMAINING CHARACTERS -->
                     <div class="character-counter js-character-counter"></div>
@@ -190,11 +192,16 @@
         </nav>
       </div>
 
+
       <ul>
         <li>
 
 
           <!-- debut d'un tweet -->
+          <?php
+          if (isset($_POST['etext'])) {
+          }
+          ?>
 
           <head>
             <meta charset="UTF-8">
@@ -205,97 +212,75 @@
           </head>
 
           <body>
-            <!-- partial:index.partial.html -->
+
 
             <?php
-
-
-            $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
-
+            $conn = mysqli_connect("192.168.65.126", "roott", "root", "connexion");
 
             // Récupération des messages depuis la base de données
-            $sql = "SELECT * FROM message";
+            $sql = "SELECT * FROM message ORDER BY dateHeure DESC";
             $result = mysqli_query($conn, $sql);
-
             ?>
-            <div class="bordure">
-              <div class="tw-block-parent">
-                <div class="timeline-TweetList-tweet">
-                  <div class="timeline-Tweet-brand">
-                    <div class="Icon Icon--twitter"></div>
-                  </div>
-                  <?php
-                  ?>
-                  <br>
-                  <?php
-                  if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                  ?>
-                      <br>
 
-
-
-                      <div class="timeline-Tweet">
-
-                        <div class="timeline-Tweet-author">
-                          <div class="TweetAuthor">
-                            <a class="TweetAuthor-link" href="#channel"> </a>
-                            <span class="TweetAuthor-avatar">
-                              <div class="Avatar"> </div>
-                            </span>
-                            <span class="TweetAuthor-name">JCVD</span>
-                            <span class="Icon Icon--verified"></span>
-                          </div>
-                          <div class="timeline-Tweet-text">
-                            <?php echo $row["message"]; ?>
-                          </div>
+            <div class="tw-block-parent">
+              <div class="timeline-TweetList-tweet">
+                <?php
+                if (mysqli_num_rows($result) > 0) {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                    <div class="timeline-Tweet">
+                      <div class="timeline-Tweet-brand">
+                        <div class="Icon Icon--twitter"></div>
+                      </div>
+                      <div class="timeline-Tweet-author">
+                        <div class="TweetAuthor">
+                          <a class="TweetAuthor-link" href="#channel"></a>
+                          <span class="TweetAuthor-avatar">
+                            <div class="Avatar"></div>
+                          </span>
+                          <span class="TweetAuthor-name">TwitterDev</span>
+                          <span class="Icon Icon--verified"></span>
+                          <span class="TweetAuthor-screenName">@TwitterDev</span>
                         </div>
                       </div>
-                </div>
-              </div>
-          <?php
-                    }
-                  } else {
-                    echo "0 results";
+                      <div class="timeline-Tweet-text">
+                        <?php echo $row["message"]; ?>
+                      </div>
+                      <div class="timeline-Tweet-metadata">
+                        <span class="timeline-Tweet-timestamp">9h</span>
+                      </div>
+                      <ul class="timeline-Tweet-actions">
+                        <li class="timeline-Tweet-action"><a class="Icon Icon--heart" href="#"></a></li>
+                        <li class="timeline-Tweet-action"><a class="Icon Icon--share" href="#"></a></li>
+                      </ul>
+                    </div>
+                <?php
                   }
+                } else {
+                  echo "0 results";
+                }
 
-                  // Fermer la connexion à la base de données MySQL
-                  mysqli_close($conn);
-          ?>
-
-
-        </li>
-        <li></li>
-      </ul>
-    </main>
-
-    <aside class="colonne-de-droite">
-      <nav>
-        <ul>
-          <li><a href="">Conditions d'utilisations</a></li>
-          <li><a href="">Politique de confidentialité</a></li>
-          <li><a href="">Politique relative aux cookies</a></li>
-          <li><a href="">Accessibilité</a></li>
-          <li><a href="">Information sur les publicités</a></li>
-          <li><a href="">Plus...</a></li>
-        </ul>
-      </nav>
-      <p>&copy; 2022 Twitter, Inc.</p>
-    </aside>
-  </div>
-  <!-- partial -->
+                // Fermer la connexion à la base de données MySQL
+                mysqli_close($conn);
+                ?>
+              </div>
+            </div>
 
 
-  <script src="boutontweeter.js"></script>
 
-  <!-- partial -->
-  <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-  <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
-  <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
-  <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
-  <script src="pagescript.js"></script>
+            <!-- partial -->
 
-</body>
+
+            <script src="boutontweeter.js"></script>
+
+            <!-- partial -->
+            <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
+            <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
+            <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+            <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
+            <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
+            <script src="pagescript.js"></script>
+
+          </body>
 
 </html>

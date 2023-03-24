@@ -3,11 +3,9 @@
   margin-left: 10%;
   margin-top: 10%;
 }
-
 .textgauche {
   margin-top: 25%;
 }
-
 .body {
   color: #14171a;
   font-size: 14px;
@@ -21,7 +19,7 @@
 }
 
 .modal-content {
-  position: relative;
+  margin-top: -5%;
   background-color: #fff;
   border-radius: 6px;
   background-clip: padding-box;
