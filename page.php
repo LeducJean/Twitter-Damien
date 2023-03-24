@@ -107,6 +107,11 @@
                         <?php
                         session_start();
 
+                        if (isset($_POST['deconnexion'])) {
+                          session_unset();
+                          session_destroy();
+                        }
+
                         $conn = mysqli_connect("192.168.65.126", "roott", "root", "connexion");
 
                         if (!$conn) {
@@ -175,6 +180,7 @@
     </aside>
 
 
+    <!-- <button class="deconnexiontwitter" name="deconnexion"><button> -->
 
     <main>
       <div class="zone-de-recherche">
