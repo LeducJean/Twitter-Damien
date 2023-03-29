@@ -7,6 +7,28 @@
   margin-top: 25%;
 }
 
+.deconnexiontwitter {
+  background-color: #1ccaff;
+  border: 1px solid transparent;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  margin-top: 5%;
+  margin-left: 26px;
+  padding: 4px;
+}
+
+.button:hover {
+  background-color: #0d8ecf;
+}
+
+
 .body {
   color: #14171a;
   font-size: 14px;

@@ -101,6 +101,7 @@
   line-height: 18px;
   color: #e1e8ed;
   transition: color 0.2s;
+  color: rgb(54, 54, 54);
 }
 
 .timeline-Tweet:hover {
