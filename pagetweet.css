@@ -1,3 +1,4 @@
+
 .lignegauche {
   margin-left: 10%;
   margin-top: 10%;
@@ -20,7 +21,7 @@
   white-space: nowrap;
   cursor: pointer;
   margin-top: 5%;
-  margin-left: 26px;
+  margin-left: 10%;
   padding: 4px;
 }
 
@@ -150,7 +151,7 @@ textarea::placeholder {
 }
 
 .odal-btn {
-  margin-left: 10%;
+  margin-left: 5%;
 }
 
 /* RICH EDITOR THEME */

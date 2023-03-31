@@ -9,6 +9,7 @@
   <link rel='stylesheet' href='https://codepen.io/a-mt/pen/VdoWRK.css'>
   <link rel="stylesheet" href="pagetweet.css">
   <link rel="stylesheet" href="tweet.css">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -23,19 +24,14 @@
 
   try {
     $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-    /*
-    $resultat = $GLOBALS["pdo"]->query($_POST["user"]);
-    foreach ($results as $resultat) {
-    $id_user = $resultat['logname'];
-    }
-    */
+
   } catch (Exception $e) {
     echo $e->getMessage();
   }
 
 
   if (isset($_POST["delete"])) {
-    $delete = "DELETE FROM `messages`";
+    $delete = "DELETE FROM `messages` ";
     $result5 = $GLOBALS["pdo"]->query($delete);
   }
   ?>
@@ -43,72 +39,70 @@
   <!-- partial:index.partial.html -->
   <div class="page">
     <aside class="colonne-de-gauche">
+        <div class="lignegauche">
+          <a href="https://twitter.com"><img src="logosite.png" width="50"></a>
 
-      <div class="lignegauche">
-        <a href="https://twitter.com"><img src="logosite.png" width="50"></a>
-
-        <div class="textgauche">
-          <?php
-          session_start();
-          if (!isset($_SESSION["userId"])) {
-            header("Location: index.php");
-            exit();
-          }
-
-          $user_id = $_SESSION["userId"];
-
-          $servername = "192.168.65.126";
-          $username = "roott";
-          $password = "root";
-          $dbname = "connexion";
-
-          $conn = new mysqli($servername, $username, $password, $dbname);
-
-          if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-          }
-
-
-          $result = $conn->query($sql);
-
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              $username = $row["logname"];
-              $message = $row["message"];
+          <div class="textgauche">
+            <?php
+            session_start();
+            if (!isset($_SESSION["userId"])) {
+              header("Location: index.php");
+              exit();
             }
-          }
 
-          $conn->close();
-          ?>
-          <nav>
+            $user_id = $_SESSION["userId"];
+
+            $servername = "192.168.65.126";
+            $username = "roott";
+            $password = "root";
+            $dbname = "connexion";
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+            }
+
+
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                $username = $row["logname"];
+                $message = $row["message"];
+              }
+            }
+
+            $conn->close();
+            ?>
             <nav>
-              <ul>
-                <li>
-                  <a href="">Accueil</a>
-                </li>
-                <li>
-                  <a href=""><b>Explorer</b></a>
-                </li>
-                <li>
-                  <a href="">Messages</a>
-                </li>
-                <li>
-                  <a href="">Signets</a>
-                </li>
-                <li>
-                  <a href="">Listes</a>
-                </li>
-                <li>
-                  <a href="">Profil</a>
-                </li>
-                <li>
-                  <a href="">Plus</a>
-                </li>
-              </ul>
-            </nav>
+              <nav>
+                <ul>
+                  <li>
+                    <a href="">Accueil</a>
+                  </li>
+                  <li>
+                    <a href=""><b>Explorer</b></a>
+                  </li>
+                  <li>
+                    <a href="">Messages</a>
+                  </li>
+                  <li>
+                    <a href="">Signets</a>
+                  </li>
+                  <li>
+                    <a href="">Listes</a>
+                  </li>
+                  <li>
+                    <a href="">Profil</a>
+                  </li>
+                  <li>
+                    <a href="">Plus</a>
+                  </li>
+                </ul>
+              </nav>
+          </div>
         </div>
-      </div>
-
       <button class="btn odal-btn modal-trigger">Tweeter</button>
 
       <form action="" method="post">
@@ -142,9 +136,7 @@
                           <div class="tweet-box-extras"></div>
                           <div class="tweet-toolbar-button">
                             <form method="POST">
-
                             </form>
-
                           </div>
                         </div>
                         <?php
@@ -193,7 +185,7 @@
                         <!-- Afficher le formulaire et le message -->
                         <form method="POST">
                           <input type="text" name="etext" class="rich-editor" spellcheck="true"
-                            placeholder="Quoi de neuf ?" maxlength="300" autocomplete="of">
+                            placeholder="Quoi de neuf ?" maxlength="300" autocomplete="off">
                       </div>
                       <button type="submit" class="btn" id="preview">Publier</button>
 
@@ -266,13 +258,7 @@
           }
           ?>
 
-          <head>
-            <meta charset="UTF-8">
-            <title>CodePen - Twitter tweet template</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-            <link rel="stylesheet" href="./style.css">
 
-          </head>
 
           <body>
 

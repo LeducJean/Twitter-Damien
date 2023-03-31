@@ -16,7 +16,8 @@ a:hover {
 /* div qui a class="page" */
 .page {
   display: flex;
-  width: 100%;
+  width: 75%;
+  margin-left: 150px;
   font-family: sans-serif;
 }
 
