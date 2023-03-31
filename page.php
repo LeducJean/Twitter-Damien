@@ -125,7 +125,11 @@
                 </div>
                 <div class="modal-body">
                   <div class="tweet-box-avatar">
-                    <img class="avatar" src="http://placehold.it/32x32">
+                    
+                    <div class="avatar" >
+                      <?php 
+                      
+                      ?></div>
                   </div>
                   <div class="tweet-box-content">
 
@@ -334,7 +338,7 @@
                             ?>
                           </span>
                           <span class="Icon Icon--verified"></span>
-                          <span class="TweetAuthor-screenName">@TwitterDev</span>
+                          <span class="TweetAuthor-screenName">@<?php echo $row["logname"]?> </span>
                         </div>
                       </div>
                       <div class="timeline-Tweet-text">

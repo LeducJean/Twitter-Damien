@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : ven. 31 mars 2023 à 13:54
+-- Généré le : ven. 31 mars 2023 à 16:30
 -- Version du serveur : 10.5.18-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.33
 
@@ -49,8 +49,18 @@ INSERT INTO `like` (`id`, `idUser`, `idMessage`) VALUES
 CREATE TABLE `messages` (
   `id` int(6) UNSIGNED NOT NULL,
   `user_id` int(6) UNSIGNED DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`id`, `user_id`, `avatar`, `message`) VALUES
+(233, 96, NULL, 'dadad'),
+(234, 96, NULL, 'zaa'),
+(235, 97, NULL, 'dza');
 
 -- --------------------------------------------------------
 
@@ -124,13 +134,13 @@ ALTER TABLE `like`
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
