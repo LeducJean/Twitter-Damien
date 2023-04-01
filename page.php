@@ -173,6 +173,10 @@
                           }
                         }
 
+
+
+
+
                         mysqli_close($conn);
 
                         ?>
@@ -223,6 +227,31 @@
 
     </aside>
 
+
+    <?php
+
+    // Connexion à la base de données
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "connexion";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Vérifier si l'utilisateur a déjà aimé le message
+    $query = "SELECT * FROM `like` WHERE `idUser` = $user_id AND `idMessage` = $idDuMessage";
+    $result17 = $conn->query($query);
+
+    if ($result17->num_rows == 0) {
+      // Si l'utilisateur n'a pas encore aimé le message, insérer un nouveau like dans la table
+      $insert_query = "INSERT INTO `like` (`idUser`, `idMessage`) VALUES ($$user_id, $idDuMessage)";
+      $conn->query($insert_query);
+    }
+
+    // Fermer la connexion
+    $conn->close();
+
+    ?>
 
     <main>
       <div class="zone-de-recherche">
@@ -368,8 +397,8 @@
 
                           // Affichage des messages avec la date d'envoi
                           if (mysqli_num_rows($result50) > 0) {
-                              echo $row["Date"] . "<br>";
-                            }
+                            echo $row["Date"] . "<br>";
+                          }
 
                           ?>
                         </span>
@@ -378,6 +407,11 @@
                         <form method="POST">
                           <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like"
                             title="Like"></button>
+
+                          <?php
+                          $sql45 = "SELECT COUNT(*) AS likes_count FROM like WHERE idMessage = [id_du_message]";
+                          ?>
+
                           <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete"
                             title="Delete"></button>
                         </form>
