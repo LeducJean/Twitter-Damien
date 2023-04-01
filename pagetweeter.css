@@ -1,3 +1,9 @@
+.bloctweet {
+  position: relative;
+  z-index: 1;
+}
+
+
 /* tous les liens */
 a {
   text-decoration: none;
@@ -10,16 +16,18 @@ a:hover {
 /* div qui a class="page" */
 .page {
   display: flex;
-  width: 100%;
+  width: 75%;
+  margin-left: 150px;
   font-family: sans-serif;
 }
 
 .colonne-de-gauche {
-  width: 200px;
+  width: 10%;
 }
 
 .colonne-de-gauche nav ul {
   list-style: none;
+  position: static;
 }
 
 .colonne-de-gauche nav ul li {
@@ -72,7 +80,7 @@ main .zone-de-recherche {
 
 main .zone-de-recherche input {
   width: 60%;
-  background: rgb(239, 243, 244);
+  background: rgb(235, 235, 235);
   color: black;
   border: none;
   padding: 10px 40px;
@@ -92,6 +100,10 @@ main .zone-de-recherche nav ul li {
 
 main .zone-de-recherche nav ul li a {
   color: black;
+}
+
+.onglet {
+  margin-top: 1%;
 }
 
 li.menu-courant {
@@ -144,12 +156,15 @@ body {
 }
 
 .modal-btn {
+  height: 8%;
+  width: 75%;
   padding: 10px 14px;
-  font-size: 18px;
-  margin: 100px auto;
+  font-size: 13px;
+  margin: 10px auto;
   display: block;
   min-width: 150px;
   cursor: pointer;
+  margin-top: 35%;
 }
 
 .modal-container {

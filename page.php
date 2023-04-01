@@ -3,77 +3,195 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Un exemple de mise en page - Gilles FRANCOIS</title>
+  <title></title>
   <link rel="stylesheet" href="pagetweeter.css">
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.css'>
   <link rel='stylesheet' href='https://codepen.io/a-mt/pen/VdoWRK.css'>
   <link rel="stylesheet" href="pagetweet.css">
+  <link rel="stylesheet" href="tweet.css">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
+  <?php
 
+
+  $ipserver = "localhost";
+  $nomBase = "connexion";
+  $loginPrivilege = "root";
+  $passPrivilege = "";
+
+  try {
+    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+
+
+  if (isset($_POST["delete"])) {
+    $delete = "DELETE FROM `messages` ";
+    $result5 = $GLOBALS["pdo"]->query($delete);
+  }
+  ?>
 
   <!-- partial:index.partial.html -->
   <div class="page">
     <aside class="colonne-de-gauche">
-      <a href="https://twitter.com"><img
-          src="https://www.meilleure-innovation.com/wp-content/uploads/2021/05/logo-twitter-png-transparent.png"
-          width="32"></a>
+      <div class="lignegauche">
+        <a href="https://twitter.com"><img src="logosite.png" width="50"></a>
 
-      <nav>
-        <ul>
-          <li>
-            <a href="">Accueil</a>
-          </li>
-          <li>
-            <a href=""><b>Explorer</b></a>
-          </li>
-          <li>
-            <a href="">Messages</a>
-          </li>
-          <li>
-            <a href="">Signets</a>
-          </li>
-          <li>
-            <a href="">Listes</a>
-          </li>
-          <li>
-            <a href="">Profil</a>
-          </li>
-          <li>
-            <a href="">Plus</a>
-          </li>
-        </ul>
-      </nav>
+        <div class="textgauche">
+          <?php
+          session_start();
+          if (!isset($_SESSION["userId"])) {
+            header("Location: index.php");
+            exit();
+          }
+
+          $user_id = $_SESSION["userId"];
+
+          $servername = "localhost";
+          $username = "root";
+          $password = "";
+          $dbname = "connexion";
+
+          $conn = new mysqli($servername, $username, $password, $dbname);
+
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
 
 
-      <button class="modal-btn modal-trigger">Tweeter</button>
+          $conn->close();
+          ?>
+          <nav>
+            <nav>
+              <ul>
+                <li>
+                  <a href="">Accueil</a>
+                </li>
+                <li>
+                  <a href=""><b>Explorer</b></a>
+                </li>
+                <li>
+                  <a href="">Messages</a>
+                </li>
+                <li>
+                  <a href="">Signets</a>
+                </li>
+                <li>
+                  <a href="">Listes</a>
+                </li>
+                <li>
+                  <a href="">Profil</a>
+                </li>
+                <li>
+                  <a href="">Plus</a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+      </div>
+      <button class="btn odal-btn modal-trigger">Tweeter</button>
 
+      <form action="" method="post">
+        <input type="submit" class="deconnexiontwitter" name="deconnexion" value="Se déconnecter"></input>
+      </form>
 
-      <div class="modal-container">
+      <div class=bloctweet>
+        <div class="modal-container">
 
-        <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="dialogDesc">
+          <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="dialogDesc">
 
-          <!-- partial:index.partial.html -->
-          <div class="modal">
-            <div class="modal-content" role="document">
-              <div class="modal-header">
+            <!-- partial:index.partial.html -->
+            <div class="modal">
 
-                <button aria-label="close modal" class="close-modal modal-trigger">X</button>
-                <h3 class="modal-title">Écrire un nouveau Tweet</h3>
-              </div>
-              <div class="modal-body">
-                <div class="tweet-box-avatar">
-                  <img class="avatar" src="http://placehold.it/32x32">
+              <div class="modal-content" role="document">
+                <div class="modal-header">
+
+                  <button aria-label="close modal" class="btn close-modal modal-trigger">X</button>
+                  <h3 class="modal-title">Écrire un nouveau Tweet</h3>
                 </div>
-                <div class="tweet-box-content">
+                <div class="modal-body">
+                  <div class="tweet-box-avatar">
 
-                  <!-- CONTENTEDITABLE -->
-                  <div class="tweet-content">
-                    <div class="tweet-box">
-                      <textarea class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?"></textarea>
+                    <div class="avatar">
+                      <?php
+
+                      ?>
                     </div>
+                  </div>
+                  <div class="tweet-box-content">
+
+                    <!-- CONTENTEDITABLE -->
+                    <div class="tweet-content">
+                      <div class="tweet-box">
+                        <div class="tweet-toolbar">
+                          <div class="tweet-box-extras"></div>
+                          <div class="tweet-toolbar-button">
+                            <form method="POST">
+                            </form>
+                          </div>
+                        </div>
+                        <?php
+
+
+                        if (isset($_POST['deconnexion'])) {
+                          session_unset();
+                          session_destroy();
+                          header("Location: index.php");
+                        }
+
+                        $conn = mysqli_connect("localhost", "root", "", "connexion");
+
+                        if (!$conn) {
+                          die("La connexion à la base de données a échoué: " . mysqli_connect_error());
+                        }
+
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                          $inputText = $_POST["etext"];
+                          if (strlen($inputText) < 3) {
+                            echo "Le texte doit contenir au moins 3 caractères.";
+                          } else { {
+                              if (isset($_POST['etext'])) {
+                                $texte = mysqli_real_escape_string($conn, $_POST['etext']);
+                                $dateHeure = date('Y-m-d H:i:s');
+                                $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
+                        
+                                $sql = "INSERT INTO messages (user_id, message) VALUES ('$user_id', '$texte')";
+
+                                if (mysqli_query($conn, $sql)) {
+                                  $idDuMessage = mysqli_insert_id($conn); // récupérer l'ID du message inséré
+                                  $message = "Le message a été enregistré avec succès.";
+                                  header('Location: page.php');
+                                  exit;
+                                } else {
+                                  $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
+                                }
+                              }
+                            }
+                          }
+                        }
+
+                        mysqli_close($conn);
+
+                        ?>
+
+                        <!-- Afficher le formulaire et le message -->
+                        <form method="POST">
+                          <input type="text" name="etext" class="rich-editor" spellcheck="true"
+                            placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off">
+                      </div>
+                      <button type="submit" class="btn" id="preview">Publier</button>
+
+                      </form>
+                      <div>
+
+                      </div>
+                    </div>
+
 
                     <!-- REMAINING CHARACTERS -->
                     <div class="character-counter js-character-counter"></div>
@@ -94,12 +212,7 @@
                   </div>
 
                   <!-- BOTTOM TOOLBAR -->
-                  <div class="tweet-toolbar">
-                    <div class="tweet-box-extras"></div>
-                    <div class="tweet-toolbar-button">
-                      <button type="button" class="btn" disabled id="preview">Preview</button>
-                    </div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -113,87 +226,166 @@
     </aside>
 
 
-
     <main>
-
       <div class="zone-de-recherche">
-        <input type="text" value="#france2018">
+        <input type="text" placeholder="Recherche Twitter">
 
-        <nav>
-          <ul>
-            <li class="menu-courant"><a href="">A la une</a></li>
-            <li><a href="">Récent</a></li>
-            <li><a href="">Personnes</a></li>
-            <li><a href="">Photos</a></li>
-            <li><a href="">Vidéos</a></li>
-          </ul>
-        </nav>
+
+        <div class="onglet">
+          <nav>
+            <ul>
+              <li class="menu-courant"><a href="">A la une</a></li>
+              <li><a href="">Récent</a></li>
+              <li><a href="">Personnes</a></li>
+              <li><a href="">Photos</a></li>
+              <li><a href="">Vidéos</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
+
 
       <ul>
         <li>
 
 
           <!-- debut d'un tweet -->
-          <article>
-            <aside>
-              <!-- ici l'avatar -->
-              <img width="60" height="60"
-                src="https://www.ipnoze.com/wordpress/wp-content/uploads/2018/09/lapins-mignons-002.jpg">
-            </aside>
-            <main>
-              <!-- ici le contenu du tweet -->
-              <header>
-                <b>
-                  <?php
-                  $pseudoUser = "SELECT user.logname FROM connexion INNER JOIN user ON connexion.user_id = user.id WHERE connexion.id = <id de la connexion>";                  
-                  ?>
-                </b>
-                <span>
-                  <!-- identifiant @... -->
-                </span>
-                <date>15 jui. 2018</date>
-              </header>
-              <p>Champions du monde ! Bravo à nos bleus ⚽✨🎉 <a href="">#France2018</a> <a
-                  href="">#WorldCupFinal2018</a> <a href="">@WorldChampions</a></p>
-            </main>
-          </article>
-          <!-- fin d'un tweet -->
+          <?php
+          if (isset($_POST['etext'])) {
+          }
+          ?>
 
 
-        </li>
-        <li></li>
-      </ul>
-    </main>
 
-    <aside class="colonne-de-droite">
-      <nav>
-        <ul>
-          <li><a href="">Conditions d'utilisations</a></li>
-          <li><a href="">Politique de confidentialité</a></li>
-          <li><a href="">Politique relative aux cookies</a></li>
-          <li><a href="">Accessibilité</a></li>
-          <li><a href="">Information sur les publicités</a></li>
-          <li><a href="">Plus...</a></li>
-        </ul>
-      </nav>
-      <p>&copy; 2022 Twitter, Inc.</p>
-    </aside>
-  </div>
-  <!-- partial -->
+          <body>
 
 
-  <script src="boutontweeter.js"></script>
+            <?php
+            $conn = mysqli_connect("localhost", "root", "", "connexion");
 
-  <!-- partial -->
-  <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-  <script
-    src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
-  <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
-  <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
-  <script src="pagescript.js"></script>
+            // Récupération des messages depuis la base de données
+            // $sql = "SELECT * FROM message ORDER BY dateHeure DESC";
+            $sql = "SELECT messages.*, user.logname FROM messages 
+            LEFT JOIN user ON messages.user_id = user.id ORDER BY messages.id DESC";
 
-</body>
+
+
+            $result = mysqli_query($conn, $sql);
+            ?>
+
+            <div class="tw-block-parent">
+              <div class="timeline-TweetList-tweet">
+                <?php
+                if (mysqli_num_rows($result) > 0) {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="timeline-Tweet">
+                      <div class="timeline-Tweet-brand">
+                        <div class="Icon Icon--twitter"></div>
+                      </div>
+                      <div class="timeline-Tweet-author">
+                        <div class="TweetAuthor">
+                          <a class="TweetAuthor-link" href="#channel"></a>
+                          <span class="TweetAuthor-avatar">
+                            <div class="Avatar"></div>
+                          </span>
+                          <span class="TweetAuthor-name">
+                            <?php
+
+
+
+
+                            if (!isset($_SESSION["userId"])) {
+                              header("Location: index.php");
+                              exit();
+                            }
+
+
+
+                            $servername = "localhost";
+                            $username = "root";
+                            $password = "";
+                            $dbname = "connexion";
+
+                            $connn = new mysqli($servername, $username, $password, $dbname);
+
+                            if ($connn->connect_error) {
+                              die("Connection failed: " . $connn->connect_error);
+                            }
+                            $username = $row["logname"];
+                            $sql1 = "SELECT * FROM user WHERE id='$user_id'";
+                            $resultt = $connn->query($sql1);
+
+
+                            if ($resultt->num_rows == 1) {
+                              $roww = $resultt->fetch_assoc();
+
+                              echo $row["logname"];
+
+                            } else {
+                              echo "Error fetching user data.";
+                            }
+
+                            $connn->close();
+
+                            ?>
+                          </span>
+                          <span class="Icon Icon--verified"></span>
+                          <span class="TweetAuthor-screenName">@
+                            <?php echo $row["logname"] ?>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="timeline-Tweet-text">
+                        <?php echo $row["message"]; ?>
+                      </div>
+                      <div class="timeline-Tweet-metadata">
+                        <span class="timeline-Tweet-timestamp">
+                          <?php
+                          $dateHeure = date('Y-m-d H:i:s');
+                          echo $dateHeure;
+                          ?>
+                        </span>
+                      </div>
+                      <ul class="timeline-Tweet-actions">
+                        <form method="POST">
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like"
+                            title="Like"></button>
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete"
+                            title="Delete"></button>
+                        </form>
+                      </ul>
+                    </div>
+
+
+                    <?php
+                  }
+                } else {
+                  echo "0 results";
+                }
+
+                // Fermer la connexion à la base de données MySQL
+                mysqli_close($conn);
+                ?>
+              </div>
+            </div>
+
+
+
+            <!-- partial -->
+
+
+            <script src="boutontweeter.js"></script>
+
+            <!-- partial -->
+            <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
+            <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
+            <script
+              src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+            <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
+            <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
+            <script src="pagescript.js"></script>
+
+          </body>
 
 </html>

@@ -1,4 +1,36 @@
-body {
+
+.lignegauche {
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
+.textgauche {
+  margin-top: 25%;
+}
+
+.deconnexiontwitter {
+  background-color: #1ccaff;
+  border: 1px solid transparent;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  margin-top: 5%;
+  margin-left: 10%;
+  padding: 4px;
+}
+
+.button:hover {
+  background-color: #0d8ecf;
+}
+
+
+.body {
   color: #14171a;
   font-size: 14px;
   line-height: 20px;
@@ -11,7 +43,7 @@ body {
 }
 
 .modal-content {
-  position: relative;
+  margin-top: 2%;
   background-color: #fff;
   border-radius: 6px;
   background-clip: padding-box;
@@ -118,6 +150,10 @@ textarea::placeholder {
   color: #aab8c2;
 }
 
+.odal-btn {
+  margin-left: 5%;
+}
+
 /* RICH EDITOR THEME */
 .cm-s-default .cm-link {
   color: #2FC2EF;
@@ -142,6 +178,7 @@ textarea::placeholder {
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
+  margin-top: 5%;
 }
 
 .btn[disabled] {
