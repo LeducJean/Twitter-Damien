@@ -151,25 +151,23 @@
                         }
 
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                          $inputText = $_POST["etext"];
-                          if (strlen($inputText) < 3) {
-                            echo "Le texte doit contenir au moins 3 caractères.";
-                          } else { {
-                              if (isset($_POST['etext'])) {
-                                $texte = mysqli_real_escape_string($conn, $_POST['etext']);
-                                $dateHeure = date('Y-m-d H:i:s');
-                                $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
-                        
-                                $sql = "INSERT INTO messages (user_id, message) VALUES ('$user_id', '$texte')";
+                          if (isset($_POST['etext'])) {
+                            $inputText = $_POST["etext"];
+                            if (strlen($inputText) < 3) {
+                              echo "Le texte doit contenir au moins 3 caractères.";
+                            } else {
+                              $texte = mysqli_real_escape_string($conn, $inputText);
+                              $dateHeure = date('Y-m-d H:i:s');
 
-                                if (mysqli_query($conn, $sql)) {
-                                  $idDuMessage = mysqli_insert_id($conn); // récupérer l'ID du message inséré
-                                  $message = "Le message a été enregistré avec succès.";
-                                  header('Location: page.php');
-                                  exit;
-                                } else {
-                                  $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
-                                }
+                              $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
+
+                              if (mysqli_query($conn, $sql)) {
+                                $idDuMessage = mysqli_insert_id($conn); // récupérer l'ID du message inséré
+                                $message = "Le message a été enregistré avec succès.";
+                                header('Location: page.php');
+                                exit;
+                              } else {
+                                $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
                               }
                             }
                           }
@@ -331,8 +329,10 @@
                             ?>
                           </span>
                           <span class="Icon Icon--verified"></span>
-                          <span class="TweetAuthor-screenName">@
-                            <?php echo $row["logname"] ?>
+                          <span class="TweetAuthor-screenName">
+                            <?php
+                            echo "@";
+                            echo $row["logname"]; ?>
                           </span>
                         </div>
                       </div>
