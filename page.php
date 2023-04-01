@@ -342,8 +342,17 @@
                       <div class="timeline-Tweet-metadata">
                         <span class="timeline-Tweet-timestamp">
                           <?php
+                          // Appeler la fonction avec une date de publication spécifique
                           $dateHeure = date('Y-m-d H:i:s');
-                          echo $dateHeure;
+                          //echo $dateHeure;
+                      
+
+
+
+                         
+
+
+
                           ?>
                         </span>
                       </div>
@@ -363,9 +372,6 @@
                 } else {
                   echo "0 results";
                 }
-
-                // Fermer la connexion à la base de données MySQL
-                mysqli_close($conn);
                 ?>
               </div>
             </div>
