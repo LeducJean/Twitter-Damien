@@ -343,15 +343,33 @@
                         <span class="timeline-Tweet-timestamp">
                           <?php
                           // Appeler la fonction avec une date de publication spécifique
-                          $dateHeure = date('Y-m-d H:i:s');
-                          //echo $dateHeure;
+                          //$dateHeure = date('Y-m-d H:i:s');
+                          //echo ($dateHeure);
                       
 
+                          // Connexion à la base de données
+                          $servername = "localhost";
+                          $username = "root";
+                          $password = "";
+                          $dbname = "connexion";
+
+                          $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+                          // Vérification de la connexion
+                          if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                          }
 
 
-                         
 
+                          // Récupération des messages avec la date d'envoi
+                          $sql50 = "SELECT messages.message, messages.Date, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id";
+                          $result50 = mysqli_query($conn, $sql50);
 
+                          // Affichage des messages avec la date d'envoi
+                          if (mysqli_num_rows($result50) > 0) {
+                              echo $row["Date"] . "<br>";
+                            }
 
                           ?>
                         </span>
@@ -372,6 +390,9 @@
                 } else {
                   echo "0 results";
                 }
+
+                // Fermer la connexion à la base de données MySQL
+                mysqli_close($conn);
                 ?>
               </div>
             </div>
