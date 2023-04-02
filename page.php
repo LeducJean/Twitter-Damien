@@ -151,44 +151,27 @@
                         }
 
 
-                        // Créer un tableau pour stocker les IDs des messages reçus
-                        $receivedMessagesIds = [];
-
-                        function insertMessageIntoDatabase()
-                        {
-                          global $conn, $user_id, $receivedMessagesIds;
-                          if (isset($_POST['etext'])) {
-                            $inputText = $_POST["etext"];
-                            if (strlen($inputText) < 3) {
-                              echo "Le texte doit contenir au moins 3 caractères.";
+                        if (isset($_POST['etext'])) {
+                          $inputText = $_POST["etext"];
+                          if (strlen($inputText) < 3) {
+                            echo "Le texte doit contenir au moins 3 caractères.";
+                          } else {
+                            $texte = mysqli_real_escape_string($conn, $inputText);
+                            $dateHeure = date('Y-m-d H:i:s');
+                            $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
+                            if (mysqli_query($conn, $sql)) {
+                              $idDuMessage = mysqli_insert_id($conn);
+                              echo "Le code pour ajouter un message est exécuté.";
+                              $receivedMessagesIds[] = $idDuMessage;
+                              $message = "Le message a été enregistré avec succès.";
+                              header('Location: page.php');
+                              exit;
                             } else {
-                              $texte = mysqli_real_escape_string($conn, $inputText);
-                              $dateHeure = date('Y-m-d H:i:s');
-                              $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
-                              if (mysqli_query($conn, $sql)) {
-                                $idDuMessage = mysqli_insert_id($conn);
-                                echo "Le code pour ajouter un message est exécuté.";
-                                $receivedMessagesIds[] = $idDuMessage;
-                                $message = "Le message a été enregistré avec succès.";
-                                header('Location: page.php');
-                                exit;
-                              } else {
-                                $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
-                              }
+                              $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
                             }
                           }
                         }
 
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                          insertMessageIntoDatabase();
-                        }
-
-                        echo "Contenu du tableau : ";
-                        var_dump($receivedMessagesIds);
-
-
-                        // Vous pouvez maintenant utiliser le tableau $receivedMessagesIds pour récupérer les IDs des messages reçus et afficher leurs likes plus tard dans le code.
-                        
 
                         if ($conn) {
                           mysqli_close($conn);
@@ -361,21 +344,24 @@
 
                           $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+
                           // Vérification de la connexion
                           if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                           }
 
-
-
                           // Récupération des messages avec la date d'envoi
-                          $sql50 = "SELECT messages.message, messages.Date, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id";
+                          $sql50 = "SELECT messages.message, messages.Date, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.id = " . $row["id"];
                           $result50 = mysqli_query($conn, $sql50);
 
-                          // Affichage des messages avec la date d'envoi
+                          // Affichage de la date d'envoi pour chaque message
                           if (mysqli_num_rows($result50) > 0) {
-                            echo $row["Date"] . "<br>";
+                            while ($row50 = mysqli_fetch_assoc($result50)) {
+                              echo "Message ID: " . $row["id"];
+                              echo $row50["Date"] . "<br>";
+                            }
                           }
+
                           ?>
 
                         </span>
