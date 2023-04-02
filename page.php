@@ -135,14 +135,14 @@
                             </form>
                           </div>
                         </div>
+
                         <?php
-
-
                         if (isset($_POST['deconnexion'])) {
                           session_unset();
                           session_destroy();
                           header("Location: index.php");
                         }
+
 
                         $conn = mysqli_connect("localhost", "root", "", "connexion");
 
@@ -150,7 +150,13 @@
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
                         }
 
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                        // Créer un tableau pour stocker les IDs des messages reçus
+                        $receivedMessagesIds = [];
+
+                        function insertMessageIntoDatabase()
+                        {
+                          global $conn, $user_id, $receivedMessagesIds;
                           if (isset($_POST['etext'])) {
                             $inputText = $_POST["etext"];
                             if (strlen($inputText) < 3) {
@@ -158,11 +164,11 @@
                             } else {
                               $texte = mysqli_real_escape_string($conn, $inputText);
                               $dateHeure = date('Y-m-d H:i:s');
-
                               $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
-
                               if (mysqli_query($conn, $sql)) {
-                                $idDuMessage = mysqli_insert_id($conn); // récupérer l'ID du message inséré
+                                $idDuMessage = mysqli_insert_id($conn);
+                                echo "Le code pour ajouter un message est exécuté.";
+                                $receivedMessagesIds[] = $idDuMessage;
                                 $message = "Le message a été enregistré avec succès.";
                                 header('Location: page.php');
                                 exit;
@@ -173,11 +179,20 @@
                           }
                         }
 
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                          insertMessageIntoDatabase();
+                        }
+
+                        echo "Contenu du tableau : ";
+                        var_dump($receivedMessagesIds);
 
 
+                        // Vous pouvez maintenant utiliser le tableau $receivedMessagesIds pour récupérer les IDs des messages reçus et afficher leurs likes plus tard dans le code.
+                        
 
-
-                        mysqli_close($conn);
+                        if ($conn) {
+                          mysqli_close($conn);
+                        }
 
                         ?>
 
@@ -220,38 +235,11 @@
             </div>
           </div>
 
-
         </div>
 
       </div>
 
     </aside>
-
-
-    <?php
-
-    // Connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "connexion";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Vérifier si l'utilisateur a déjà aimé le message
-    $query = "SELECT * FROM `like` WHERE `idUser` = $user_id AND `idMessage` = $idDuMessage";
-    $result17 = $conn->query($query);
-
-    if ($result17->num_rows == 0) {
-      // Si l'utilisateur n'a pas encore aimé le message, insérer un nouveau like dans la table
-      $insert_query = "INSERT INTO `like` (`idUser`, `idMessage`) VALUES ($$user_id, $idDuMessage)";
-      $conn->query($insert_query);
-    }
-
-    // Fermer la connexion
-    $conn->close();
-
-    ?>
 
     <main>
       <div class="zone-de-recherche">
@@ -282,10 +270,7 @@
           }
           ?>
 
-
-
           <body>
-
 
             <?php
             $conn = mysqli_connect("localhost", "root", "", "connexion");
@@ -317,17 +302,8 @@
                             <div class="Avatar"></div>
                           </span>
                           <span class="TweetAuthor-name">
+
                             <?php
-
-
-
-
-                            if (!isset($_SESSION["userId"])) {
-                              header("Location: index.php");
-                              exit();
-                            }
-
-
 
                             $servername = "localhost";
                             $username = "root";
@@ -354,8 +330,8 @@
                             }
 
                             $connn->close();
-
                             ?>
+
                           </span>
                           <span class="Icon Icon--verified"></span>
                           <span class="TweetAuthor-screenName">
@@ -370,6 +346,7 @@
                       </div>
                       <div class="timeline-Tweet-metadata">
                         <span class="timeline-Tweet-timestamp">
+
                           <?php
                           // Appeler la fonction avec une date de publication spécifique
                           //$dateHeure = date('Y-m-d H:i:s');
@@ -399,8 +376,8 @@
                           if (mysqli_num_rows($result50) > 0) {
                             echo $row["Date"] . "<br>";
                           }
-
                           ?>
+
                         </span>
                       </div>
                       <ul class="timeline-Tweet-actions">
@@ -425,13 +402,16 @@
                   echo "0 results";
                 }
 
+
+                //phpinfo();
+                
+
                 // Fermer la connexion à la base de données MySQL
                 mysqli_close($conn);
                 ?>
+
               </div>
             </div>
-
-
 
             <!-- partial -->
 

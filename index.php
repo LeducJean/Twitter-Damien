@@ -92,8 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 												</div>
 												<div class="form-group">
 													<input type="password" name="logpass" class="form-style"
-														placeholder="Mot de passe" id="logpass2" autocomplete="new-password"
-														minlength="4">
+														placeholder="Mot de passe" id="logpass2"
+														autocomplete="new-password" minlength="4">
 													<i class="input-icon uil uil-lock-alt"></i>
 												</div>
 												<div class="form-group">
