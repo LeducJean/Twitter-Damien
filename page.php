@@ -357,7 +357,7 @@
                           // Affichage de la date d'envoi pour chaque message
                           if (mysqli_num_rows($result50) > 0) {
                             while ($row50 = mysqli_fetch_assoc($result50)) {
-                              echo "Message ID: " . $row["id"] ."<p>";
+                              echo "Message ID: " . $row["id"] . "<p>";
                               echo $row50["Date"];
                             }
                           }
@@ -369,11 +369,17 @@
                         <form method="POST">
                           <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like"
                             title="Like"></button>
-
                           <?php
-                          $sql45 = "SELECT COUNT(*) AS likes_count FROM like WHERE idMessage = [id_du_message]";
-                          ?>
+                          // Récupération des messages avec les likes
+                          $sql51 = "SELECT messages.message, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.likes = " . $row["likes"];
+                          $result51 = mysqli_query($conn, $sql51);
 
+                          // Affichage des likes des messages
+                      
+                          if (mysqli_num_rows($result51) > 0) {
+                            echo $row["likes"];
+                          }
+                          ?>
                           <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete"
                             title="Delete"></button>
                         </form>
