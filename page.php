@@ -357,11 +357,10 @@
                           // Affichage de la date d'envoi pour chaque message
                           if (mysqli_num_rows($result50) > 0) {
                             while ($row50 = mysqli_fetch_assoc($result50)) {
-                              echo "Message ID: " . $row["id"];
-                              echo $row50["Date"] . "<br>";
+                              echo "Message ID: " . $row["id"] ."<p>";
+                              echo $row50["Date"];
                             }
                           }
-
                           ?>
 
                         </span>
