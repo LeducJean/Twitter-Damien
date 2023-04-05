@@ -367,35 +367,32 @@
                           // Connexion à la base de données
                           $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
-                          // Récupération des informations du message et de l'utilisateur
-                          $message_id = $row["id"];
-                          $user_id = $_SESSION["userId"];
 
-                          // Vérification si l'utilisateur a déjà liké le message
-                          $query56 = "SELECT * FROM likes WHERE message_id = :message_id AND user_id = :user_id";
-                          $stmt = $conn->prepare($query56);
-                          $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                          $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                          $stmt->execute();
-                          $result56 = $stmt->fetch(PDO::FETCH_ASSOC);
+/*
+                          // Vérification que le formulaire a été soumis
+                          if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                          // Si l'utilisateur a déjà liké le message, on supprime le like
-                          if ($result56) {
-                            $query56 = "DELETE FROM likes WHERE message_id = :message_id AND user_id = :user_id";
-                            $stmt = $conn->prepare($query56);
-                            $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                            $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                            $stmt->execute();
-                          } else {
-                            // Sinon, on ajoute un like
-                            $query56 = "INSERT INTO likes (message_id, user_id) VALUES (:message_id, :user_id)";
-                            $stmt = $conn->prepare($query56);
-                            $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                            $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                            $stmt->execute();
+                            // Récupération de l'ID de l'utilisateur connecté
+                            $user_id = $_SESSION["userId"]; // Remplacer 1 par l'ID de l'utilisateur connecté
+
+                            // Récupération de l'ID du message à liker
+                            $message_id = $row["id"];
+
+                            $query27 = "SELECT * FROM likes WHERE user_id = $user_id AND message_id = $message_id";
+                            $result27 = mysqli_query($conn, $query27);
+
+                            // Si un like existe déjà, on le supprime
+                            if (mysqli_num_rows($result27) > 0) {
+                              $query27 = "DELETE FROM likes WHERE user_id = $user_id AND message_id = $message_id";
+                              mysqli_query($conn, $query27);
+                            } else {
+                              // Sinon, on ajoute un nouveau like
+                              $query27 = "INSERT INTO likes (user_id, message_id) VALUES ($user_id, $message_id)";
+                              mysqli_query($conn, $query27);
+                            }
                           }
 
-
+*/
 
                           // ID du message dont on veut afficher le nombre de likes
                           $message_id = $row["id"];
