@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mer. 05 avr. 2023 à 15:52
+-- Généré le : mer. 05 avr. 2023 à 17:10
 -- Version du serveur : 10.5.18-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.33
 
@@ -31,8 +31,17 @@ CREATE TABLE `likes` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `message_id` int(10) UNSIGNED NOT NULL,
-  `countLikes` int(10) UNSIGNED NOT NULL DEFAULT 0
+  `countLikes` int(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `likes`
+--
+
+INSERT INTO `likes` (`id`, `user_id`, `message_id`, `countLikes`) VALUES
+(60, 97, 468, 1),
+(61, 88, 468, 1),
+(62, 89, 468, 1);
 
 -- --------------------------------------------------------
 
@@ -53,7 +62,9 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `user_id`, `avatar`, `message`, `Date`) VALUES
-(454, 97, NULL, 'eeaea', '2023-04-05 15:51:16');
+(468, 97, NULL, 'aaa', '2023-04-05 16:27:46'),
+(469, 97, NULL, 'bbb', '2023-04-05 16:27:48'),
+(470, 97, NULL, 'ccc', '2023-04-05 16:27:50');
 
 -- --------------------------------------------------------
 
@@ -97,6 +108,7 @@ INSERT INTO `user` (`id`, `logname`, `logpass`, `logemail`) VALUES
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_like` (`user_id`,`message_id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`message_id`),
   ADD KEY `fk_user_id` (`user_id`),
   ADD KEY `fk_message_id` (`message_id`);
 
@@ -125,13 +137,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=455;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=471;
 
 --
 -- AUTO_INCREMENT pour la table `user`

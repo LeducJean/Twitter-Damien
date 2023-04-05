@@ -365,33 +365,42 @@
 
                           <?php
                           // Connexion à la base de données
-                          $servername = "192.168.65.164";
-                          $username = "root";
-                          $password = "root";
-                          $dbname = "connexion";
+                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
-                          $conn = mysqli_connect($servername, $username, $password, $dbname);
+                          // Récupération des informations du message et de l'utilisateur
+                          $message_id = $row["id"];
+                          $user_id = $_SESSION["userId"];
 
-                          // Vérifier si l'utilisateur a cliqué sur le bouton "like"
-                          if (isset($_POST['like'])) {
-                            $messageId = $_POST['like'];
-                            $userId = $_SESSION['user_id'];
+                          // Vérification si l'utilisateur a déjà liké le message
+                          $query56 = "SELECT * FROM likes WHERE message_id = :message_id AND user_id = :user_id";
+                          $stmt = $conn->prepare($query56);
+                          $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                          $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                          $stmt->execute();
+                          $result56 = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                            // Vérifier si l'utilisateur a déjà liké le message
-                            $query27 = "SELECT id FROM likes WHERE user_id = $userId AND message_id = $messageId";
-
-                            if (mysqli_num_rows($result27) == 0) {
-                              // L'utilisateur n'a pas encore liké le message, ajouter un like
-                              $query27 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES ($userId, $messageId, 1)";
-                              mysqli_query($conn, $query27);
-                              $likeLabel = "Unlike";
-                            } else {
-                              // L'utilisateur a déjà liké le message, supprimer le like
-                              $query27 = "DELETE FROM likes WHERE user_id = $userId AND message_id = $messageId";
-                              mysqli_query($conn, $query27);
-                              $likeLabel = "Like";
-                            }
+                          // Si l'utilisateur a déjà liké le message, on supprime le like
+                          if ($result56) {
+                            $query56 = "DELETE FROM likes WHERE message_id = :message_id AND user_id = :user_id";
+                            $stmt = $conn->prepare($query56);
+                            $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                            $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                            $stmt->execute();
+                          } else {
+                            // Sinon, on ajoute un like
+                            $query56 = "INSERT INTO likes (message_id, user_id) VALUES (:message_id, :user_id)";
+                            $stmt = $conn->prepare($query56);
+                            $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                            $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                            $stmt->execute();
                           }
+
+                          // Fermeture de la connexion à la base de données
+                          $conn = null;
+
+
+
+
 
 
                           // Connexion à la base de données
