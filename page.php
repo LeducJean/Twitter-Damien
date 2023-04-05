@@ -353,8 +353,10 @@
                               echo $row50["Date"];
                             }
                           }
-                          ?>
 
+
+
+                          ?>
                         </span>
                       </div>
                       <ul class="timeline-Tweet-actions">
@@ -363,24 +365,57 @@
 
                           <?php
                           // Connexion à la base de données
-                          $pdo71 = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
+                          $servername = "192.168.65.164";
+                          $username = "root";
+                          $password = "root";
+                          $dbname = "connexion";
+
+                          $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+                          // Vérifier si l'utilisateur a cliqué sur le bouton "like"
+                          if (isset($_POST['like'])) {
+                            $messageId = $_POST['like'];
+                            $userId = $_SESSION['user_id'];
+
+                            // Vérifier si l'utilisateur a déjà liké le message
+                            $query27 = "SELECT id FROM likes WHERE user_id = $userId AND message_id = $messageId";
+
+                            if (mysqli_num_rows($result27) == 0) {
+                              // L'utilisateur n'a pas encore liké le message, ajouter un like
+                              $query27 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES ($userId, $messageId, 1)";
+                              mysqli_query($conn, $query27);
+                              $likeLabel = "Unlike";
+                            } else {
+                              // L'utilisateur a déjà liké le message, supprimer le like
+                              $query27 = "DELETE FROM likes WHERE user_id = $userId AND message_id = $messageId";
+                              mysqli_query($conn, $query27);
+                              $likeLabel = "Like";
+                            }
+                          }
+
+
+                          // Connexion à la base de données
+                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
                           // ID du message dont on veut afficher le nombre de likes
                           $message_id = $row["id"];
 
-                          // Requête pour récupérer le nombre de likes pour le message donné
-                          $query71 = "SELECT countLikes FROM likes WHERE message_id = :message_id";
-                          $stmt = $pdo71->prepare($query71);
+                          // Requête pour récupérer tous les likes pour le message donné
+                          $query47 = "SELECT * FROM likes WHERE message_id = :message_id";
+                          $stmt = $conn->prepare($query47);
                           $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
                           $stmt->execute();
-                          $result71 = $stmt->fetch(PDO::FETCH_ASSOC);
+                          $result47 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                           // Affichage du nombre de likes
-                          if ($result71["countLikes"] < 1) {
-                            echo "0";
+                          if (count($result47) > 0) {
+                            echo count($result47);
                           } else {
-                            echo $result71["countLikes"];
+                            echo "0";
                           }
+
+                          // Fermeture de la connexion à la base de données
+                          $conn = null;
                           ?>
 
                           <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
