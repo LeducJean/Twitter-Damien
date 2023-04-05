@@ -157,7 +157,7 @@
                           } else {
                             $texte = mysqli_real_escape_string($conn, $inputText);
                             $dateHeure = date('Y-m-d H:i:s');
-                            $sql = "INSERT INTO messages (user_id, message, Date, likes) VALUES ('$user_id', '$texte', '$dateHeure', '0')";
+                            $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
                             if (mysqli_query($conn, $sql)) {
                               $idDuMessage = mysqli_insert_id($conn);
                               echo "Le code pour ajouter un message est exécuté.";
@@ -326,9 +326,6 @@
                         <span class="timeline-Tweet-timestamp">
 
                           <?php
-                          // Appeler la fonction avec une date de publication spécifique
-                          //$dateHeure = date('Y-m-d H:i:s');
-                          //echo ($dateHeure);
 
 
                           // Connexion à la base de données
@@ -352,7 +349,7 @@
                           // Affichage de la date d'envoi pour chaque message
                           if (mysqli_num_rows($result50) > 0) {
                             while ($row50 = mysqli_fetch_assoc($result50)) {
-                              echo "Message ID: " . $row["id"] . "<p>";
+                              echo "(Message ID: " . $row["id"] . ")<p>";
                               echo $row50["Date"];
                             }
                           }
@@ -363,17 +360,29 @@
                       <ul class="timeline-Tweet-actions">
                         <form method="POST">
                           <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like"></button>
+
                           <?php
-                          // Récupération des messages avec les likes
-                          $sql51 = "SELECT messages.message, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.likes = " . $row["likes"];
-                          $result51 = mysqli_query($conn, $sql51);
+                          // Connexion à la base de données
+                          $pdo71 = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
-                          // Affichage des likes des messages
+                          // ID du message dont on veut afficher le nombre de likes
+                          $message_id = $row["id"];
 
-                          if (mysqli_num_rows($result51) > 0) {
-                            echo $row["likes"];
+                          // Requête pour récupérer le nombre de likes pour le message donné
+                          $query71 = "SELECT countLikes FROM likes WHERE message_id = :message_id";
+                          $stmt = $pdo71->prepare($query71);
+                          $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                          $stmt->execute();
+                          $result71 = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                          // Affichage du nombre de likes
+                          if ($result71["countLikes"] < 1) {
+                            echo "0";
+                          } else {
+                            echo $result71["countLikes"];
                           }
                           ?>
+
                           <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
                         </form>
                       </ul>

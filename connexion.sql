@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : dim. 02 avr. 2023 à 19:20
--- Version du serveur : 8.0.31
+-- Hôte : localhost
+-- Généré le : mer. 05 avr. 2023 à 15:52
+-- Version du serveur : 10.5.18-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -24,28 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `message_id` int(10) UNSIGNED NOT NULL,
+  `countLikes` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `messages`
 --
 
-DROP TABLE IF EXISTS `messages`;
-CREATE TABLE IF NOT EXISTS `messages` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int UNSIGNED DEFAULT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `message` text COLLATE utf8mb4_general_ci NOT NULL,
-  `Date` datetime NOT NULL,
-  `likes` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=441 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `messages` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `message` text NOT NULL,
+  `Date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `messages`
 --
 
-INSERT INTO `messages` (`id`, `user_id`, `avatar`, `message`, `Date`, `likes`) VALUES
-(438, 97, NULL, 'dadad', '2023-04-02 18:16:46', 0),
-(439, 97, NULL, 'dadadazra', '2023-04-02 18:16:48', 5),
-(440, 97, NULL, 'eaeae', '2023-04-02 18:17:03', 0);
+INSERT INTO `messages` (`id`, `user_id`, `avatar`, `message`, `Date`) VALUES
+(454, 97, NULL, 'eeaea', '2023-04-05 15:51:16');
 
 -- --------------------------------------------------------
 
@@ -53,17 +61,12 @@ INSERT INTO `messages` (`id`, `user_id`, `avatar`, `message`, `Date`, `likes`) V
 -- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `logname` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `logpass` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `logemail` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `logname` (`logname`),
-  UNIQUE KEY `logemail` (`logemail`),
-  UNIQUE KEY `logname_2` (`logname`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `logname` varchar(50) NOT NULL,
+  `logpass` varchar(50) NOT NULL,
+  `logemail` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `user`
@@ -83,6 +86,68 @@ INSERT INTO `user` (`id`, `logname`, `logpass`, `logemail`) VALUES
 (102, 'lucasfilm', '123456789', 'lucasburguet22020@gmail.com'),
 (104, 'Anonymous', '1234', 'anonymous@gmail.com'),
 (105, 'faustinou', 'fofo', 'faustinou@gmail.com');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_like` (`user_id`,`message_id`),
+  ADD KEY `fk_user_id` (`user_id`),
+  ADD KEY `fk_message_id` (`message_id`);
+
+--
+-- Index pour la table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Index pour la table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `logname` (`logname`),
+  ADD UNIQUE KEY `logemail` (`logemail`),
+  ADD UNIQUE KEY `logname_2` (`logname`),
+  ADD KEY `logname_3` (`logname`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=455;
+
+--
+-- AUTO_INCREMENT pour la table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `fk_likes_message_id` FOREIGN KEY (`message_id`) REFERENCES `messages` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
