@@ -242,7 +242,6 @@
       <ul>
         <li>
 
-
           <!-- debut d'un tweet -->
           <?php
           if (isset($_POST['etext'])) {
@@ -266,10 +265,12 @@
 
             <div class="tw-block-parent">
               <div class="timeline-TweetList-tweet">
+
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                   while ($row = mysqli_fetch_assoc($result)) {
                 ?>
+
                     <div class="timeline-Tweet">
                       <div class="timeline-Tweet-brand">
                         <div class="Icon Icon--twitter"></div>
@@ -283,7 +284,6 @@
                           <span class="TweetAuthor-name">
 
                             <?php
-
                             $servername = "192.168.65.164";
                             $username = "root";
                             $password = "root";
@@ -395,29 +395,21 @@
                             $stmt->execute();
                           }
 
-                          // Fermeture de la connexion à la base de données
-                          $conn = null;
 
-
-
-
-
-
-                          // Connexion à la base de données
-                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
                           // ID du message dont on veut afficher le nombre de likes
                           $message_id = $row["id"];
 
                           // Requête pour récupérer tous les likes pour le message donné
-                          $query47 = "SELECT * FROM likes WHERE message_id = :message_id";
+                          $query47 = "SELECT * FROM likes WHERE message_id = :message_id AND countLikes = 1";
                           $stmt = $conn->prepare($query47);
                           $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
                           $stmt->execute();
                           $result47 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                           // Affichage du nombre de likes
-                          if (count($result47) > 0) {
+                          if (count($result47) && $result47[0]['countLikes'] == 1) {
+                            // Le code à exécuter si la condition est vraie
                             echo count($result47);
                           } else {
                             echo "0";
