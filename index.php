@@ -4,7 +4,7 @@ require_once('connexion.php');
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	session_start();
-	$connexion = new Connexion("192.168.65.126", "roott", "root", "connexion");
+	$connexion = new Connexion("192.168.65.164", "root", "root", "connexion");
 
 	// Login
 	if (isset($_POST["connexion"])) {
@@ -60,7 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 														placeholder="Email" id="logemail" autocomplete="off">
 													<i class="input-icon uil uil-at"></i>
 													<input type="password" name="logpass" class="form-style"
-														placeholder="Mot de passe" id="logpass" autocomplete="off" minlength="4">
+														placeholder="Mot de passe" id="logpass" autocomplete="off"
+														minlength="4">
 													<i class="input-icon uil uil-lock-alt cadenaconnexion"></i>
 												</div>
 												<div class="form-group">
@@ -80,7 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 											<form action="" method="post">
 												<div class="form-group">
 													<input type="text" name="logname" class="form-style"
-														placeholder="Nom d'utilisateur" id="logname" autocomplete="off" minlength="4">
+														placeholder="Nom d'utilisateur" id="logname" autocomplete="off"
+														minlength="4">
 													<i class="input-icon uil uil-user"></i>
 												</div>
 												<div class="form-group">
@@ -90,7 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 												</div>
 												<div class="form-group">
 													<input type="password" name="logpass" class="form-style"
-														placeholder="Mot de passe" id="logpass2" autocomplete="off" minlength="4">
+														placeholder="Mot de passe" id="logpass2"
+														autocomplete="new-password" minlength="4">
 													<i class="input-icon uil uil-lock-alt"></i>
 												</div>
 												<div class="form-group">

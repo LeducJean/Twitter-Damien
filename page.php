@@ -17,14 +17,13 @@
   <?php
 
 
-  $ipserver = "192.168.65.126";
+  $ipserver = "192.168.65.164";
   $nomBase = "connexion";
-  $loginPrivilege = "roott";
+  $loginPrivilege = "root";
   $passPrivilege = "root";
 
   try {
     $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-
   } catch (Exception $e) {
     echo $e->getMessage();
   }
@@ -39,70 +38,61 @@
   <!-- partial:index.partial.html -->
   <div class="page">
     <aside class="colonne-de-gauche">
-        <div class="lignegauche">
-          <a href="https://twitter.com"><img src="logosite.png" width="50"></a>
+      <div class="lignegauche">
+        <a href="https://twitter.com"><img src="logosite.png" width="50"></a>
 
-          <div class="textgauche">
-            <?php
-            session_start();
-            if (!isset($_SESSION["userId"])) {
-              header("Location: index.php");
-              exit();
-            }
+        <div class="textgauche">
+          <?php
+          session_start();
+          if (!isset($_SESSION["userId"])) {
+            header("Location: index.php");
+            exit();
+          }
 
-            $user_id = $_SESSION["userId"];
+          $user_id = $_SESSION["userId"];
 
-            $servername = "192.168.65.126";
-            $username = "roott";
-            $password = "root";
-            $dbname = "connexion";
+          $servername = "192.168.65.164";
+          $username = "root";
+          $password = "root";
+          $dbname = "connexion";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
+          $conn = new mysqli($servername, $username, $password, $dbname);
 
-            if ($conn->connect_error) {
-              die("Connection failed: " . $conn->connect_error);
-            }
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
 
 
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                $username = $row["logname"];
-                $message = $row["message"];
-              }
-            }
-
-            $conn->close();
-            ?>
+          $conn->close();
+          ?>
+          <nav>
             <nav>
-              <nav>
-                <ul>
-                  <li>
-                    <a href="">Accueil</a>
-                  </li>
-                  <li>
-                    <a href=""><b>Explorer</b></a>
-                  </li>
-                  <li>
-                    <a href="">Messages</a>
-                  </li>
-                  <li>
-                    <a href="">Signets</a>
-                  </li>
-                  <li>
-                    <a href="">Listes</a>
-                  </li>
-                  <li>
-                    <a href="">Profil</a>
-                  </li>
-                  <li>
-                    <a href="">Plus</a>
-                  </li>
-                </ul>
-              </nav>
-          </div>
+              <ul>
+                <li>
+                  <a href="">Accueil</a>
+                </li>
+                <li>
+                  <a href=""><b>Explorer</b></a>
+                </li>
+                <li>
+                  <a href="">Messages</a>
+                </li>
+                <li>
+                  <a href="">Signets</a>
+                </li>
+                <li>
+                  <a href="">Listes</a>
+                </li>
+                <li>
+                  <a href="">Profil</a>
+                </li>
+                <li>
+                  <a href="">Plus</a>
+                </li>
+              </ul>
+            </nav>
         </div>
+      </div>
       <button class="btn odal-btn modal-trigger">Tweeter</button>
 
       <form action="" method="post">
@@ -125,11 +115,12 @@
                 </div>
                 <div class="modal-body">
                   <div class="tweet-box-avatar">
-                    
-                    <div class="avatar" >
-                      <?php 
-                      
-                      ?></div>
+
+                    <div class="avatar">
+                      <?php
+
+                      ?>
+                    </div>
                   </div>
                   <div class="tweet-box-content">
 
@@ -143,53 +134,53 @@
                             </form>
                           </div>
                         </div>
+
                         <?php
-
-
                         if (isset($_POST['deconnexion'])) {
                           session_unset();
                           session_destroy();
                           header("Location: index.php");
                         }
 
-                        $conn = mysqli_connect("192.168.65.126", "roott", "root", "connexion");
+
+                        $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
 
                         if (!$conn) {
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
                         }
 
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                          $inputText = $_POST["etext"];
-                          if (strlen($inputText) < 1) {
-                            echo "Veuillez saisir au moins un caractère.";
-                          } else {
-                            if (isset($_POST['etext'])) {
-                              $texte = mysqli_real_escape_string($conn, $_POST['etext']);
-                              $dateHeure = date('Y-m-d H:i:s');
-                              $idUser = 1; // Récupération de l'ID de l'utilisateur connecté
-                        
-                              $sql = "INSERT INTO messages (user_id, message) VALUES ('$user_id', '$texte')";
 
-                              if (mysqli_query($conn, $sql)) {
-                                $idDuMessage = mysqli_insert_id($conn); // récupérer l'ID du message inséré
-                                $message = "Le message a été enregistré avec succès.";
-                                header('Location: page.php');
-                                exit;
-                              } else {
-                                $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
-                              }
+                        if (isset($_POST['etext'])) {
+                          $inputText = $_POST["etext"];
+                          if (strlen($inputText) < 3) {
+                            echo "Le texte doit contenir au moins 3 caractères.";
+                          } else {
+                            $texte = mysqli_real_escape_string($conn, $inputText);
+                            $dateHeure = date('Y-m-d H:i:s');
+                            $sql = "INSERT INTO messages (user_id, message, Date, likes) VALUES ('$user_id', '$texte', '$dateHeure', '0')";
+                            if (mysqli_query($conn, $sql)) {
+                              $idDuMessage = mysqli_insert_id($conn);
+                              echo "Le code pour ajouter un message est exécuté.";
+                              $receivedMessagesIds[] = $idDuMessage;
+                              $message = "Le message a été enregistré avec succès.";
+                              header('Location: page.php');
+                              exit;
+                            } else {
+                              $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
                             }
                           }
                         }
 
-                        mysqli_close($conn);
+
+                        if ($conn) {
+                          mysqli_close($conn);
+                        }
 
                         ?>
 
                         <!-- Afficher le formulaire et le message -->
                         <form method="POST">
-                          <input type="text" name="etext" class="rich-editor" spellcheck="true"
-                            placeholder="Quoi de neuf ?" maxlength="300" autocomplete="off">
+                          <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off">
                       </div>
                       <button type="submit" class="btn" id="preview">Publier</button>
 
@@ -206,13 +197,11 @@
                     <!-- EMOJI PICKER -->
                     <div class="emojipicker-btn EmojiPicker-trigger">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-                        <path
-                          d="M15 0C6.729 0 0 6.729 0 15s6.729 15 15 15 15-6.729 15-15S23.271 0 15 0zm0 28.378c-3.675 0-7.008-1.49-9.428-3.896a13.45 13.45 0 0 1-2.426-3.285A13.295 13.295 0 0 1 1.622 15C1.622 7.623 7.623 1.622 15 1.622c3.499 0 6.688 1.35 9.074 3.557a13.45 13.45 0 0 1 2.996 4.054A13.298 13.298 0 0 1 28.378 15c0 7.377-6.001 13.378-13.378 13.378z">
+                        <path d="M15 0C6.729 0 0 6.729 0 15s6.729 15 15 15 15-6.729 15-15S23.271 0 15 0zm0 28.378c-3.675 0-7.008-1.49-9.428-3.896a13.45 13.45 0 0 1-2.426-3.285A13.295 13.295 0 0 1 1.622 15C1.622 7.623 7.623 1.622 15 1.622c3.499 0 6.688 1.35 9.074 3.557a13.45 13.45 0 0 1 2.996 4.054A13.298 13.298 0 0 1 28.378 15c0 7.377-6.001 13.378-13.378 13.378z">
                         </path>
                         <circle r="1.622" cy="11.655" cx="10.101"></circle>
                         <circle r="1.622" cy="11.655" cx="20.135"></circle>
-                        <path
-                          d="M14.971 23.31c3.138 0 6.144-1.604 7.866-4.268l-1.362-.88a7.77 7.77 0 0 1-7.368 3.477 7.779 7.779 0 0 1-5.582-3.477l-1.362.88c1.5 2.32 4.026 3.893 6.758 4.208.35.04.701.06 1.05.06z">
+                        <path d="M14.971 23.31c3.138 0 6.144-1.604 7.866-4.268l-1.362-.88a7.77 7.77 0 0 1-7.368 3.477 7.779 7.779 0 0 1-5.582-3.477l-1.362.88c1.5 2.32 4.026 3.893 6.758 4.208.35.04.701.06 1.05.06z">
                         </path>
                       </svg>
                     </div>
@@ -225,13 +214,11 @@
             </div>
           </div>
 
-
         </div>
 
       </div>
 
     </aside>
-
 
     <main>
       <div class="zone-de-recherche">
@@ -262,13 +249,10 @@
           }
           ?>
 
-
-
           <body>
 
-
             <?php
-            $conn = mysqli_connect("192.168.65.126", "roott", "root", "connexion");
+            $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
 
             // Récupération des messages depuis la base de données
             // $sql = "SELECT * FROM message ORDER BY dateHeure DESC";
@@ -285,7 +269,7 @@
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                   while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
+                ?>
                     <div class="timeline-Tweet">
                       <div class="timeline-Tweet-brand">
                         <div class="Icon Icon--twitter"></div>
@@ -297,20 +281,11 @@
                             <div class="Avatar"></div>
                           </span>
                           <span class="TweetAuthor-name">
+
                             <?php
 
-
-
-
-                            if (!isset($_SESSION["userId"])) {
-                              header("Location: index.php");
-                              exit();
-                            }
-
-
-
-                            $servername = "192.168.65.126";
-                            $username = "roott";
+                            $servername = "192.168.65.164";
+                            $username = "root";
                             $password = "root";
                             $dbname = "connexion";
 
@@ -328,17 +303,20 @@
                               $roww = $resultt->fetch_assoc();
 
                               echo $row["logname"];
-
                             } else {
                               echo "Error fetching user data.";
                             }
 
                             $connn->close();
-
                             ?>
+
                           </span>
                           <span class="Icon Icon--verified"></span>
-                          <span class="TweetAuthor-screenName">@<?php echo $row["logname"]?> </span>
+                          <span class="TweetAuthor-screenName">
+                            <?php
+                            echo "@";
+                            echo $row["logname"]; ?>
+                          </span>
                         </div>
                       </div>
                       <div class="timeline-Tweet-text">
@@ -346,36 +324,78 @@
                       </div>
                       <div class="timeline-Tweet-metadata">
                         <span class="timeline-Tweet-timestamp">
+
                           <?php
-                          $dateHeure = date('Y-m-d H:i:s');
-                          echo $dateHeure;
+                          // Appeler la fonction avec une date de publication spécifique
+                          //$dateHeure = date('Y-m-d H:i:s');
+                          //echo ($dateHeure);
+
+
+                          // Connexion à la base de données
+                          $servername = "192.168.65.164";
+                          $username = "root";
+                          $password = "root";
+                          $dbname = "connexion";
+
+                          $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+
+                          // Vérification de la connexion
+                          if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                          }
+
+                          // Récupération des messages avec la date d'envoi
+                          $sql50 = "SELECT messages.message, messages.Date, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.id = " . $row["id"];
+                          $result50 = mysqli_query($conn, $sql50);
+
+                          // Affichage de la date d'envoi pour chaque message
+                          if (mysqli_num_rows($result50) > 0) {
+                            while ($row50 = mysqli_fetch_assoc($result50)) {
+                              echo "Message ID: " . $row["id"] . "<p>";
+                              echo $row50["Date"];
+                            }
+                          }
                           ?>
+
                         </span>
                       </div>
                       <ul class="timeline-Tweet-actions">
                         <form method="POST">
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like"
-                            title="Like"></button>
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete"
-                            title="Delete"></button>
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like"></button>
+                          <?php
+                          // Récupération des messages avec les likes
+                          $sql51 = "SELECT messages.message, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.likes = " . $row["likes"];
+                          $result51 = mysqli_query($conn, $sql51);
+
+                          // Affichage des likes des messages
+
+                          if (mysqli_num_rows($result51) > 0) {
+                            echo $row["likes"];
+                          }
+                          ?>
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
                         </form>
                       </ul>
                     </div>
 
 
-                    <?php
+                <?php
                   }
                 } else {
                   echo "0 results";
                 }
 
+
+                //phpinfo();
+
+
                 // Fermer la connexion à la base de données MySQL
                 mysqli_close($conn);
                 ?>
+
               </div>
             </div>
-
-
 
             <!-- partial -->
 
@@ -385,8 +405,7 @@
             <!-- partial -->
             <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
             <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-            <script
-              src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+            <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
             <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
             <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
             <script src="pagescript.js"></script>
