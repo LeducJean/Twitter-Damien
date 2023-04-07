@@ -180,7 +180,8 @@
 
                         <!-- Afficher le formulaire et le message -->
                         <form method="POST">
-                          <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off">
+                          <input type="text" name="etext" class="rich-editor" spellcheck="true"
+                            placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off">
                       </div>
                       <button type="submit" class="btn" id="preview">Publier</button>
 
@@ -197,11 +198,13 @@
                     <!-- EMOJI PICKER -->
                     <div class="emojipicker-btn EmojiPicker-trigger">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-                        <path d="M15 0C6.729 0 0 6.729 0 15s6.729 15 15 15 15-6.729 15-15S23.271 0 15 0zm0 28.378c-3.675 0-7.008-1.49-9.428-3.896a13.45 13.45 0 0 1-2.426-3.285A13.295 13.295 0 0 1 1.622 15C1.622 7.623 7.623 1.622 15 1.622c3.499 0 6.688 1.35 9.074 3.557a13.45 13.45 0 0 1 2.996 4.054A13.298 13.298 0 0 1 28.378 15c0 7.377-6.001 13.378-13.378 13.378z">
+                        <path
+                          d="M15 0C6.729 0 0 6.729 0 15s6.729 15 15 15 15-6.729 15-15S23.271 0 15 0zm0 28.378c-3.675 0-7.008-1.49-9.428-3.896a13.45 13.45 0 0 1-2.426-3.285A13.295 13.295 0 0 1 1.622 15C1.622 7.623 7.623 1.622 15 1.622c3.499 0 6.688 1.35 9.074 3.557a13.45 13.45 0 0 1 2.996 4.054A13.298 13.298 0 0 1 28.378 15c0 7.377-6.001 13.378-13.378 13.378z">
                         </path>
                         <circle r="1.622" cy="11.655" cx="10.101"></circle>
                         <circle r="1.622" cy="11.655" cx="20.135"></circle>
-                        <path d="M14.971 23.31c3.138 0 6.144-1.604 7.866-4.268l-1.362-.88a7.77 7.77 0 0 1-7.368 3.477 7.779 7.779 0 0 1-5.582-3.477l-1.362.88c1.5 2.32 4.026 3.893 6.758 4.208.35.04.701.06 1.05.06z">
+                        <path
+                          d="M14.971 23.31c3.138 0 6.144-1.604 7.866-4.268l-1.362-.88a7.77 7.77 0 0 1-7.368 3.477 7.779 7.779 0 0 1-5.582-3.477l-1.362.88c1.5 2.32 4.026 3.893 6.758 4.208.35.04.701.06 1.05.06z">
                         </path>
                       </svg>
                     </div>
@@ -242,6 +245,7 @@
       <ul>
         <li>
 
+
           <!-- debut d'un tweet -->
           <?php
           if (isset($_POST['etext'])) {
@@ -265,12 +269,10 @@
 
             <div class="tw-block-parent">
               <div class="timeline-TweetList-tweet">
-
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                   while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-
+                    ?>
                     <div class="timeline-Tweet">
                       <div class="timeline-Tweet-brand">
                         <div class="Icon Icon--twitter"></div>
@@ -284,6 +286,7 @@
                           <span class="TweetAuthor-name">
 
                             <?php
+
                             $servername = "192.168.65.164";
                             $username = "root";
                             $password = "root";
@@ -361,53 +364,60 @@
                       </div>
                       <ul class="timeline-Tweet-actions">
                         <form method="POST">
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like"></button>
-
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like"
+                            title="Like"></button>
                           <?php
                           // Connexion à la base de données
                           $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
+                          // Récupération des informations du message et de l'utilisateur
+                          $message_id = $row["id"];
+                          $user_id = $_SESSION["userId"];
 
-/*
-                          // Vérification que le formulaire a été soumis
-                          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                          // Vérification si l'utilisateur a déjà liké le message
+                          $query56 = "SELECT * FROM likes WHERE message_id = :message_id AND user_id = :user_id";
+                          $stmt = $conn->prepare($query56);
+                          $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                          $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                          $stmt->execute();
+                          $result56 = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                            // Récupération de l'ID de l'utilisateur connecté
-                            $user_id = $_SESSION["userId"]; // Remplacer 1 par l'ID de l'utilisateur connecté
-
-                            // Récupération de l'ID du message à liker
-                            $message_id = $row["id"];
-
-                            $query27 = "SELECT * FROM likes WHERE user_id = $user_id AND message_id = $message_id";
-                            $result27 = mysqli_query($conn, $query27);
-
-                            // Si un like existe déjà, on le supprime
-                            if (mysqli_num_rows($result27) > 0) {
-                              $query27 = "DELETE FROM likes WHERE user_id = $user_id AND message_id = $message_id";
-                              mysqli_query($conn, $query27);
+                          if (isset($_POST["like"])) {
+                            // Si l'utilisateur a déjà liké le message, on supprime le like
+                            if ($result56) {
+                              $query56 = "DELETE FROM likes WHERE message_id = :message_id AND user_id = :user_id";
+                              $stmt = $conn->prepare($query56);
+                              $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                              $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                              $stmt->execute();
                             } else {
-                              // Sinon, on ajoute un nouveau like
-                              $query27 = "INSERT INTO likes (user_id, message_id) VALUES ($user_id, $message_id)";
-                              mysqli_query($conn, $query27);
+                              // Sinon, on ajoute un like
+                              $query56 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES (:user_id, :message_id, 1)";
+                              $stmt = $conn->prepare($query56);
+                              $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
+                              $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                              $stmt->execute();
                             }
                           }
+                          // Fermeture de la connexion à la base de données
+                          $conn = null;
 
-*/
+                          // Connexion à la base de données
+                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
                           // ID du message dont on veut afficher le nombre de likes
                           $message_id = $row["id"];
 
-                          // Requête pour récupérer tous les likes pour le message donné
-                          $query47 = "SELECT * FROM likes WHERE message_id = :message_id AND countLikes = 1";
+                          // Requête pour récupérer le nombre de likes pour le message donné
+                          $query47 = "SELECT SUM(countLikes) as likesCount FROM likes WHERE message_id = :message_id";
                           $stmt = $conn->prepare($query47);
                           $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
                           $stmt->execute();
-                          $result47 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                          $result47 = $stmt->fetch(PDO::FETCH_ASSOC);
 
                           // Affichage du nombre de likes
-                          if (count($result47) && $result47[0]['countLikes'] == 1) {
-                            // Le code à exécuter si la condition est vraie
-                            echo count($result47);
+                          if ($result47 && $result47['likesCount'] > 0) {
+                            echo $result47['likesCount'];
                           } else {
                             echo "0";
                           }
@@ -416,13 +426,15 @@
                           $conn = null;
                           ?>
 
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
+
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete"
+                            title="Delete"></button>
                         </form>
                       </ul>
                     </div>
 
 
-                <?php
+                    <?php
                   }
                 } else {
                   echo "0 results";
@@ -430,7 +442,7 @@
 
 
                 //phpinfo();
-
+                
 
                 // Fermer la connexion à la base de données MySQL
                 mysqli_close($conn);
@@ -447,7 +459,8 @@
             <!-- partial -->
             <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
             <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-            <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+            <script
+              src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
             <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
             <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
             <script src="pagescript.js"></script>
