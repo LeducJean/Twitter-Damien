@@ -353,15 +353,8 @@
                               echo $row50["Date"];
                             }
                           }
-                          ?>
 
-                        </span>
-                      </div>
-                      <ul class="timeline-Tweet-actions">
-                        <form method="POST">
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like" value="<?php echo $row['id']; ?>"></button>
 
-                          <?php
                           // Connexion à la base de données
                           $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
 
@@ -397,7 +390,15 @@
                               }
                             }
                           }
+                          ?>
 
+                        </span>
+                      </div>
+                      <ul class="timeline-Tweet-actions">
+                        <form method="POST">
+                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like" value="<?php echo $row['id']; ?>"></button>
+
+                          <?php
                           // Fermeture de la connexion à la base de données
                           $conn = null;
 
