@@ -392,7 +392,7 @@
                               $stmt->execute();
                             } else {
                               // Sinon, on ajoute un like
-                              $query56 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES (:user_id, :message_id, 1)";
+                              $query56 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES (:user_id, :message_id, 1) ON DUPLICATE KEY UPDATE countLikes = countLikes + 1";
                               $stmt = $conn->prepare($query56);
                               $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
                               $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
