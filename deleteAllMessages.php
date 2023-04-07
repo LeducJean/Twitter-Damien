@@ -23,12 +23,7 @@ if(isset($_POST["idTaches"])){
         } catch (\Throwable $th) {
             $retour[0]= "ko";
         }
-
-       
-
-
         
-
     }else{
         $retour[0] = "ko";
     }
@@ -36,11 +31,5 @@ if(isset($_POST["idTaches"])){
     $retour[0] = "ko";
 }
 
-
-
 //il est preferable de retourner un string compatible JSON qui sera encodé via la méthode json_encode.
-
 echo  json_encode($retour);
-
-
-?>
