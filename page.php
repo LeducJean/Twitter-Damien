@@ -32,6 +32,8 @@
   if (isset($_POST["delete"])) {
     $delete = "DELETE FROM `messages` ";
     $result5 = $GLOBALS["pdo"]->query($delete);
+    header('Location: page.php');
+    exit;
   }
   ?>
 
@@ -380,6 +382,8 @@
                                 $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
                                 $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
                                 $stmt->execute();
+
+                                header('Location: page.php');
                               } else {
                                 // Sinon, on ajoute un like
                                 $query56 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES (:user_id, :message_id, 1) ON DUPLICATE KEY UPDATE countLikes = countLikes + 1";
@@ -388,6 +392,7 @@
                                 $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
                                 $stmt->execute();
                               }
+                              header('Location: page.php');
                             }
                           }
                           ?>
