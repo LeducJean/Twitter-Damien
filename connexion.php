@@ -1,5 +1,4 @@
 <?php
-
 class Connexion
 {
     private $servername;
@@ -33,10 +32,13 @@ class Connexion
             $row = $result->fetch_assoc();
             $_SESSION["userId"] = $row["id"];
             $_SESSION["logname"] = $row["logname"];
-            header("Location: page.php");
+            header("Location: Page.php");
             exit();
         } else {
-            echo "Invalid email or password.";
+            $error = [
+                'error' => 'Invalid email or password.'
+            ];
+            return json_encode($error);
         }
     }
 
@@ -44,10 +46,18 @@ class Connexion
     {
         $sql = "INSERT INTO user (logname, logemail, logpass) VALUES ('$name', '$email', '$password')";
         if ($this->conn->query($sql) === TRUE) {
-            header("Location: page.php");
-            exit();
+            $data = [
+                'message' => 'User registered successfully.'
+            ];
+            return json_encode($data);
         } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
+            $error = [
+                'error' => 'Error: ' . $sql . '<br>' . $this->conn->error
+            ];
+            return json_encode($error);
         }
     }
 }
+
+
+?>

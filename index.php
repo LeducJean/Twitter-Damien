@@ -1,26 +1,28 @@
 <?php
 require_once('connexion.php');
+$connexion = new Connexion('localhost', 'root', '', 'connexion');
 
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	session_start();
-	$connexion = new Connexion("localhost", "root", "", "connexion");
+    session_start();
 
-	// Login
-	if (isset($_POST["connexion"])) {
-		$email = $_POST["logemail"];
-		$password = $_POST["logpass"];
-		$connexion->login($email, $password);
-	}
+    // Login
+    if (isset($_POST["connexion"])) {
+        $email = $_POST["logemail"];
+        $password = $_POST["logpass"];
+        $connexion->login($email, $password);
+    }
 
-	// Registration
-	if (isset($_POST["inscription"])) {
-		$name = $_POST["logname"];
-		$email = $_POST["logemail"];
-		$password = $_POST["logpass"];
-		$connexion->register($name, $email, $password);
-	}
+    // Registration
+    if (isset($_POST["inscription"])) {
+        $name = $_POST["logname"];
+        $email = $_POST["logemail"];
+        $password = $_POST["logpass"];
+        $connexion->register($name, $email, $password);
+    }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -62,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 													<input type="password" name="logpass" class="form-style"
 														placeholder="Mot de passe" id="logpass" autocomplete="off"
 														minlength="4">
+														
 													<i class="input-icon uil uil-lock-alt cadenaconnexion"></i>
 												</div>
 												<div class="form-group">
