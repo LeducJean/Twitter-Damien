@@ -1,3 +1,24 @@
+.profile-btn {
+  display:flex;
+  margin:12px 0;
+  padding:12px;
+  cursor:pointer;
+  width:calc(100% + 12px);
+  border-radius:9999px;
+}
+.profile-image {
+  border-radius:100%;
+  width:48px;
+  height:48px;
+}
+.post-header .tag, .post-header .time, .dot {
+  margin-left:4px;
+}
+.tag, .time, .dot, .details svg{
+  color:rgb(136, 153, 166);
+  fill:rgb(136, 153, 166);
+  display:block;
+}
 .lignegauche {
   margin-left: 10%;
   margin-top: 10%;

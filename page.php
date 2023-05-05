@@ -1,4 +1,7 @@
+<?php
+session_start(); ?>
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -11,10 +14,12 @@
   <link rel="stylesheet" href="tweet.css">
   <link rel="stylesheet" href="style.css">
 
+
 </head>
 
 <body>
   <?php
+  require_once("connexion.php");
 
 
   $ipserver = "192.168.65.164";
@@ -29,12 +34,7 @@
   }
 
 
-  if (isset($_POST["delete"])) {
-    $delete = "DELETE FROM `messages` ";
-    $result5 = $GLOBALS["pdo"]->query($delete);
-    header('Location: page.php');
-    exit;
-  }
+
   ?>
 
   <!-- partial:index.partial.html -->
@@ -45,7 +45,7 @@
 
         <div class="textgauche">
           <?php
-          session_start();
+
           if (!isset($_SESSION["userId"])) {
             header("Location: index.php");
             exit();
@@ -100,7 +100,6 @@
       <form action="" method="post">
         <input type="submit" class="deconnexiontwitter" name="deconnexion" value="Se déconnecter"></input>
       </form>
-
       <div class=bloctweet>
         <div class="modal-container">
 
@@ -151,40 +150,16 @@
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
                         }
 
-
-                        if (isset($_POST['etext'])) {
-                          $inputText = $_POST["etext"];
-                          if (strlen($inputText) < 3) {
-                            echo "Le texte doit contenir au moins 3 caractères.";
-                          } else {
-                            $texte = mysqli_real_escape_string($conn, $inputText);
-                            $dateHeure = date('Y-m-d H:i:s');
-                            $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$user_id', '$texte', '$dateHeure')";
-                            if (mysqli_query($conn, $sql)) {
-                              $idDuMessage = mysqli_insert_id($conn);
-                              echo "Le code pour ajouter un message est exécuté.";
-                              $receivedMessagesIds[] = $idDuMessage;
-                              $message = "Le message a été enregistré avec succès.";
-                              header('Location: page.php');
-                              exit;
-                            } else {
-                              $message = "Erreur lors de l'insertion du message dans la base de données: " . mysqli_error($conn);
-                            }
-                          }
-                        }
-
-
-                        if ($conn) {
-                          mysqli_close($conn);
-                        }
+                        require_once("Message.php");
 
                         ?>
 
+
                         <!-- Afficher le formulaire et le message -->
                         <form method="POST">
-                          <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off">
+                          <input type="text" name="etext" class="rich-editor" spellcheck="true" placeholder="Quoi de neuf ?" minlength="3" maxlength="300" autocomplete="off" onkeypress="return (event.charCode != 60 && event.charCode != 62)">
                       </div>
-                      <button type="submit" class="btn" id="preview">Publier</button>
+                      <button type="submit" class="btn" id="preview ">Publier</button>
 
                       </form>
                       <div>
@@ -256,8 +231,7 @@
             <?php
             $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
 
-            // Récupération des messages depuis la base de données
-            // $sql = "SELECT * FROM message ORDER BY dateHeure DESC";
+
             $sql = "SELECT messages.*, user.logname FROM messages 
             LEFT JOIN user ON messages.user_id = user.id ORDER BY messages.id DESC";
 
@@ -269,203 +243,83 @@
             <div class="tw-block-parent">
               <div class="timeline-TweetList-tweet">
                 <?php
-                if (mysqli_num_rows($result) > 0) {
-                  while ($row = mysqli_fetch_assoc($result)) {
+                require_once("AfficheDate.php");
+
+                // Utilisation de la classe Database pour récupérer les messages
+                $database = new Database("192.168.65.164", "root", "root", "connexion");
+                $messages = $database->getMessages();
+
+                // Inversion de l'ordre des messages pour afficher les plus récents en premier
+                $messages = array_reverse($messages);
+
+                // Affichage des messages et de la date d'envoi pour chaque message
+                foreach ($messages as $message) {
+                  // ...
+                  require_once("ApiSup.php");
+
                 ?>
-                    <div class="timeline-Tweet">
-                      <div class="timeline-Tweet-brand">
-                        <div class="Icon Icon--twitter"></div>
-                      </div>
-                      <div class="timeline-Tweet-author">
-                        <div class="TweetAuthor">
-                          <a class="TweetAuthor-link" href="#channel"></a>
-                          <span class="TweetAuthor-avatar">
-                            <div class="Avatar"></div>
-                          </span>
-                          <span class="TweetAuthor-name">
-
-                            <?php
-
-                            $servername = "192.168.65.164";
-                            $username = "root";
-                            $password = "root";
-                            $dbname = "connexion";
-
-                            $connn = new mysqli($servername, $username, $password, $dbname);
-
-                            if ($connn->connect_error) {
-                              die("Connection failed: " . $connn->connect_error);
-                            }
-                            $username = $row["logname"];
-                            $sql1 = "SELECT * FROM user WHERE id='$user_id'";
-                            $resultt = $connn->query($sql1);
-
-
-                            if ($resultt->num_rows == 1) {
-                              $roww = $resultt->fetch_assoc();
-
-                              echo $row["logname"];
-                            } else {
-                              echo "Error fetching user data.";
-                            }
-
-                            $connn->close();
-                            ?>
-
-                          </span>
-                          <span class="Icon Icon--verified"></span>
-                          <span class="TweetAuthor-screenName">
-                            <?php
-                            echo "@";
-                            echo $row["logname"]; ?>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="timeline-Tweet-text">
-                        <?php echo $row["message"]; ?>
-                      </div>
-                      <div class="timeline-Tweet-metadata">
-                        <span class="timeline-Tweet-timestamp">
-
-                          <?php
-
-
-                          // Connexion à la base de données
-                          $servername = "192.168.65.164";
-                          $username = "root";
-                          $password = "root";
-                          $dbname = "connexion";
-
-                          $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-
-                          // Vérification de la connexion
-                          if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                          }
-
-                          // Récupération des messages avec la date d'envoi
-                          $sql50 = "SELECT messages.message, messages.Date, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.id = " . $row["id"];
-                          $result50 = mysqli_query($conn, $sql50);
-
-                          // Affichage de la date d'envoi pour chaque message
-                          if (mysqli_num_rows($result50) > 0) {
-                            while ($row50 = mysqli_fetch_assoc($result50)) {
-                              echo "(Message ID: " . $row["id"] . ")<p>";
-                              echo $row50["Date"];
-                            }
-                          }
-
-
-                          // Connexion à la base de données
-                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
-
-                          // Vérification si l'utilisateur a cliqué sur un bouton "like"
-                          if (isset($_POST["like"])) {
-                            // Récupération de l'ID du message associé au bouton "like" cliqué
-                            $liked_message_id = $_POST["like"];
-
-                            // Si l'ID du message associé au bouton "like" cliqué est égal à l'ID du message en cours de traitement
-                            if ($liked_message_id == $message_id) {
-                              // Vérification si l'utilisateur a déjà liké le message
-                              $query56 = "SELECT * FROM likes WHERE message_id = :message_id AND user_id = :user_id";
-                              $stmt = $conn->prepare($query56);
-                              $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                              $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                              $stmt->execute();
-                              $result56 = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                              // Si l'utilisateur a déjà liké le message, on supprime le like
-                              if ($result56) {
-                                $query56 = "DELETE FROM likes WHERE message_id = :message_id AND user_id = :user_id";
-                                $stmt = $conn->prepare($query56);
-                                $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                                $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                                $stmt->execute();
-
-                                header('Location: page.php');
-                              } else {
-                                // Sinon, on ajoute un like
-                                $query56 = "INSERT INTO likes (user_id, message_id, countLikes) VALUES (:user_id, :message_id, 1) ON DUPLICATE KEY UPDATE countLikes = countLikes + 1";
-                                $stmt = $conn->prepare($query56);
-                                $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                                $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                                $stmt->execute();
-                              }
-                              header('Location: page.php');
-                            }
-                          }
-                          ?>
-
+                  <div class="timeline-Tweet">
+                    <div class="timeline-Tweet-brand">
+                      <div class="Icon Icon--twitter"></div>
+                    </div>
+                    <div class="timeline-Tweet-author">
+                      <div class="TweetAuthor">
+                        <a class="TweetAuthor-link" href="#channel"></a>
+                        <span class="TweetAuthor-avatar">
+                          <div class="Avatar"></div>
+                        </span>
+                        <span class="TweetAuthor-name">
+                          <?php echo $message["logname"]; ?>
+                        </span>
+                        <span class="Icon Icon--verified"></span>
+                        <span class="TweetAuthor-screenName">
+                          @<?php echo $message["logname"]; ?>
                         </span>
                       </div>
-                      <ul class="timeline-Tweet-actions">
-                        <form method="POST">
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like" value="<?php echo $row['id']; ?>"></button>
-
-                          <?php
-                          // Fermeture de la connexion à la base de données
-                          $conn = null;
-
-                          // Connexion à la base de données
-                          $conn = new PDO("mysql:host=192.168.65.164;dbname=connexion", "root", "root");
-
-                          // ID du message dont on veut afficher le nombre de likes
-                          $message_id = $row["id"];
-
-                          // Requête pour récupérer le nombre de likes pour le message donné
-                          $query47 = "SELECT SUM(countLikes) as likesCount FROM likes WHERE message_id = :message_id";
-                          $stmt = $conn->prepare($query47);
-                          $stmt->bindParam(":message_id", $message_id, PDO::PARAM_INT);
-                          $stmt->execute();
-                          $result47 = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                          // Affichage du nombre de likes
-                          if ($result47 && $result47['likesCount'] > 0) {
-                            echo $result47['likesCount'];
-                          } else {
-                            echo "0";
-                          }
-
-                          // Fermeture de la connexion à la base de données
-                          $conn = null;
-                          ?>
-
-                          <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
-                        </form>
-                      </ul>
                     </div>
+                    <div class="timeline-Tweet-text">
+                      <?php echo $message["message"]; ?>
+                    </div>
+                    <div class="timeline-Tweet-metadata">
+                      <span class="timeline-Tweet-timestamp">
+
+                        <?php echo formatDate($message["date"]); ?>
+                      </span>
+                    </div>
+                    <ul class="timeline-Tweet-actions">
+
+                      <form method="POST">
+                        <input type="hidden" name="message_id" value="">
+                        <button type="submit" class="timeline-Tweet-action Icon Icon--heart" name="like" title="Like"></button>
 
 
+                        <?php
+
+                        // endroit pour like 
+                        ?>
+                        <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
+                      </form>
+                    </ul>
+                  </div>
                 <?php
-                  }
-                } else {
-                  echo "0 results";
                 }
-
-
-                //phpinfo();
-
-
-                // Fermer la connexion à la base de données MySQL
-                mysqli_close($conn);
                 ?>
 
-              </div>
-            </div>
 
-            <!-- partial -->
+                <!-- partial -->
 
 
-            <script src="boutontweeter.js"></script>
+                <script src="boutontweeter.js"></script>
 
-            <!-- partial -->
-            <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
-            <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
-            <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
-            <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
-            <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
-            <script src="pagescript.js"></script>
+                <!-- partial -->
+                <script src='//cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.js'></script>
+                <script src='//cdnjs.cloudflare.com/ajax/libs/preact/8.2.7/preact.min.js'></script>
+                <script src='https://cdn.rawgit.com/a-mt/020212e6d9daec5ca0da69bef55bba01/raw/3f0913be305e44796313284ab2d4292e44790bff/emojiInfo.en.js'></script>
+                <script src='https://codepen.io/a-mt/pen/VdoWRK.js'></script>
+                <script src='//twemoji.maxcdn.com/2/twemoji.min.js?2.4'></script>
+                <script src="pagescript.js"></script>
+
+
 
           </body>
 

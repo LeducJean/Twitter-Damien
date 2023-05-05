@@ -1,10 +1,10 @@
 <?php
 require_once('connexion.php');
+$connexion = new Connexion('192.168.65.164', 'root', 'root', 'connexion');
 
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	session_start();
-	$connexion = new Connexion("192.168.65.164", "root", "root", "connexion");
 
 	// Login
 	if (isset($_POST["connexion"])) {
@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$connexion->register($name, $email, $password);
 	}
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -56,21 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 											<h4 class="mb-4 pb-3">Connexion</h4>
 											<form action="" method="post">
 												<div class="form-group">
-													<input type="email" name="logemail" class="form-style"
-														placeholder="Email" id="logemail" autocomplete="off">
+													<input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail" autocomplete="off">
 													<i class="input-icon uil uil-at"></i>
-													<input type="password" name="logpass" class="form-style"
-														placeholder="Mot de passe" id="logpass" autocomplete="off"
-														minlength="4">
+													<input type="password" name="logpass" class="form-style" placeholder="Mot de passe" id="logpass" autocomplete="off" minlength="4">
+
 													<i class="input-icon uil uil-lock-alt cadenaconnexion"></i>
 												</div>
 												<div class="form-group">
-													<button type="submit" name="connexion"
-														class="btn mt-4">Connexion</button>
+													<button type="submit" name="connexion" class="btn mt-4">Connexion</button>
 												</div>
 											</form>
-											<p class="mb-0 mt-4 text-center">Vous n'avez pas encore de compte ? <a
-													href="#" class="text-danger" id="log-reg-btn">Inscrivez-vous</a></p>
+											<p class="mb-0 mt-4 text-center">Vous n'avez pas encore de compte ? <a href="#" class="text-danger" id="log-reg-btn">Inscrivez-vous</a></p>
 										</div>
 									</div>
 								</div>
@@ -80,29 +78,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 											<h4 class="mb-4 pb-3">Inscription</h4>
 											<form action="" method="post">
 												<div class="form-group">
-													<input type="text" name="logname" class="form-style"
-														placeholder="Nom d'utilisateur" id="logname" autocomplete="off"
-														minlength="4">
+													<input type="text" name="logname" class="form-style" placeholder="Nom d'utilisateur" id="logname" autocomplete="off" minlength="4">
 													<i class="input-icon uil uil-user"></i>
 												</div>
 												<div class="form-group">
-													<input type="email" name="logemail" class="form-style"
-														placeholder="Email" id="logemail2" autocomplete="off">
+													<input type="email" name="logemail" class="form-style" placeholder="Email" id="logemail2" autocomplete="off">
 													<i class="input-icon uil uil-at"></i>
 												</div>
 												<div class="form-group">
-													<input type="password" name="logpass" class="form-style"
-														placeholder="Mot de passe" id="logpass2"
-														autocomplete="new-password" minlength="4">
+													<input type="password" name="logpass" class="form-style" placeholder="Mot de passe" id="logpass2" autocomplete="new-password" minlength="4">
 													<i class="input-icon uil uil-lock-alt"></i>
 												</div>
 												<div class="form-group">
-													<button type="submit" name="inscription"
-														class="btn mt-4">Inscription</button>
+													<button type="submit" name="inscription" class="btn mt-4">Inscription</button>
 												</div>
 											</form>
-											<p class="mb-0 mt-4 text-center">Vous avez déjà un compte ? <a href="#"
-													class="text-danger" id="reg-log-btn">Connectez-vous</a></p>
+											<p class="mb-0 mt-4 text-center">Vous avez déjà un compte ? <a href="#" class="text-danger" id="reg-log-btn">Connectez-vous</a></p>
 										</div>
 									</div>
 								</div>
