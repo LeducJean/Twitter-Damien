@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 													<button type="submit" name="connexion" class="btn mt-4">Connexion</button>
 												</div>
 											</form>
-											<p class="mb-0 mt-4 text-center">Vous n'avez pas encore de compte ? <a href="#" class="text-danger" id="log-reg-btn">Inscrivez-vous</a></p>
+											<!-- <p class="mb-0 mt-4 text-center">Vous n'avez pas encore de compte ? <a href="#" class="text-danger" id="log-reg-btn">Inscrivez-vous</a></p> -->
 										</div>
 									</div>
 								</div>
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 													<button type="submit" name="inscription" class="btn mt-4">Inscription</button>
 												</div>
 											</form>
-											<p class="mb-0 mt-4 text-center">Vous avez déjà un compte ? <a href="#" class="text-danger" id="reg-log-btn">Connectez-vous</a></p>
+											<!-- <p class="mb-0 mt-4 text-center">Vous avez déjà un compte ? <a href="#" class="text-danger" id="reg-log-btn">Connectez-vous</a></p> -->
 										</div>
 									</div>
 								</div>
