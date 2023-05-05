@@ -18,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         echo json_encode(['message' => 'Tout les messages vont etre supprimer ']);
     } else {
         http_response_code(500);
-        
     }
 } else {
-    http_response_code(400);
-    ;
+    http_response_code(400);;
 }

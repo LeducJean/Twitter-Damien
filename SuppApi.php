@@ -1,19 +1,21 @@
 <?php
 
 // Connexion à la base de données
-class Database {
+class Database
+{
     private $host = "192.168.65.164";
     private $db_name = "twitter";
     private $username = "root";
     private $password = "root";
     public $conn;
 
-    public function getConnection(){
+    public function getConnection()
+    {
         $this->conn = null;
         try {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $exception){
+        } catch (PDOException $exception) {
             echo "Erreur de connexion : " . $exception->getMessage();
         }
         return $this->conn;
@@ -21,7 +23,8 @@ class Database {
 }
 
 // Classe pour les messages
-class Message {
+class Message
+{
     // Propriétés
     public $id;
     public $user_id;
@@ -31,18 +34,20 @@ class Message {
 
     private $conn;
 
-    public function __construct($db){
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
     // Méthode pour supprimer un message en fonction de l'utilisateur connecté
-    public function deleteMessage($user_id, $id){
+    public function deleteMessage($user_id, $id)
+    {
         $query = "DELETE FROM messages WHERE user_id = :user_id AND id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $user_id);
         $stmt->bindParam(":id", $id);
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
 
@@ -52,13 +57,13 @@ class Message {
 
 // Vérification si l'utilisateur est connecté
 
-if(!isset($_SESSION['user_id'])){
+if (!isset($_SESSION['user_id'])) {
     header('Location: page.php');
     exit();
 }
 
 // Suppression du message
-if(isset($_POST["delete"])){
+if (isset($_POST["delete"])) {
     $database = new Database();
     $db = $database->getConnection();
     $message = new Message($db);
@@ -66,7 +71,7 @@ if(isset($_POST["delete"])){
     $user_id = $_SESSION['user_id'];
     $id = $_POST["delete"];
 
-    if($message->deleteMessage($user_id, $id)){
+    if ($message->deleteMessage($user_id, $id)) {
         echo "Message supprimé.";
     } else {
         echo "Erreur lors de la suppression du message.";

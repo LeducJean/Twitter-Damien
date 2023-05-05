@@ -1,8 +1,10 @@
 <?php
-class User {
+class User
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $servername = "192.168.65.164";
         $username = "root";
         $password = "root";
@@ -15,19 +17,20 @@ class User {
         }
     }
 
-    public function getUserName($user_id) {
+    public function getUserName($user_id)
+    {
         $sql = "SELECT * FROM user WHERE id='$user_id'";
         $result = $this->conn->query($sql);
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            
         } else {
             return "Error fetching user data.";
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->conn->close();
     }
 }

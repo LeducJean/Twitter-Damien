@@ -1,13 +1,15 @@
 <?php
 // Connexion à la base de données
-class Database {
+class Database
+{
     private $servername;
     private $username;
     private $password;
     private $dbname;
     public $conn;
 
-    public function __construct($servername, $username, $password, $dbname) {
+    public function __construct($servername, $username, $password, $dbname)
+    {
         $this->servername = $servername;
         $this->username = $username;
         $this->password = $password;
@@ -20,17 +22,18 @@ class Database {
         if (!$this->conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-    
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         // Fermeture de la connexion à la base de données
         if ($this->conn) {
             mysqli_close($this->conn);
         }
     }
 
-    public function getMessages() {
+    public function getMessages()
+    {
         $messages = array();
 
         // Récupération de tous les messages avec la date d'envoi
@@ -54,7 +57,8 @@ class Database {
 }
 
 // Fonction pour formater la date dans le format que vous souhaitez
-function formatDate($date) {
+function formatDate($date)
+{
     return date("d/m/Y H:i:s", strtotime($date));
 }
 
