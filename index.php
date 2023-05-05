@@ -1,6 +1,6 @@
 <?php
 require_once('connexion.php');
-$connexion = new Connexion('192.168.65.164', 'root', 'root', 'connexion');
+$connexion = new Connexion('192.168.65.164', 'root', 'root', 'twitter');
 
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

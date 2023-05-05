@@ -59,7 +59,7 @@ function formatDate($date) {
 }
 
 // Utilisation de la classe Database pour récupérer les messages
-$database = new Database("192.168.65.164", "root", "root", "connexion");
+$database = new Database("192.168.65.164", "root", "root", "twitter");
 
 
 // Stockage des messages dans un tableau

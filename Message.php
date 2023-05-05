@@ -38,7 +38,7 @@ class Message
 if (isset($_POST['etext'])) {
   $inputText = $_POST["etext"];
 
-  $conn = mysqli_connect('192.168.65.164', 'root', 'root', 'connexion');
+  $conn = mysqli_connect('192.168.65.164', 'root', 'root', 'twitter');
   if (!$conn) {
     die("La connexion a échoué: " . mysqli_connect_error());
   }

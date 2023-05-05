@@ -6,7 +6,7 @@ class User {
         $servername = "192.168.65.164";
         $username = "root";
         $password = "root";
-        $dbname = "connexion";
+        $dbname = "twitter";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 

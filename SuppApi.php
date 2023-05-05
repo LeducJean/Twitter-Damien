@@ -3,7 +3,7 @@
 // Connexion à la base de données
 class Database {
     private $host = "192.168.65.164";
-    private $db_name = "connexion";
+    private $db_name = "twitter";
     private $username = "root";
     private $password = "root";
     public $conn;

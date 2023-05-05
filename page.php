@@ -23,7 +23,7 @@ session_start(); ?>
 
 
   $ipserver = "192.168.65.164";
-  $nomBase = "connexion";
+  $nomBase = "twitter";
   $loginPrivilege = "root";
   $passPrivilege = "root";
 
@@ -56,7 +56,7 @@ session_start(); ?>
           $servername = "192.168.65.164";
           $username = "root";
           $password = "root";
-          $dbname = "connexion";
+          $dbname = "twitter";
 
           $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -144,7 +144,7 @@ session_start(); ?>
                         }
 
 
-                        $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
+                        $conn = mysqli_connect("192.168.65.164", "root", "root", "twitter");
 
                         if (!$conn) {
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
@@ -229,7 +229,7 @@ session_start(); ?>
           <body>
 
             <?php
-            $conn = mysqli_connect("192.168.65.164", "root", "root", "connexion");
+            $conn = mysqli_connect("192.168.65.164", "root", "root", "twitter");
 
 
             $sql = "SELECT messages.*, user.logname FROM messages 
@@ -246,7 +246,7 @@ session_start(); ?>
                 require_once("AfficheDate.php");
 
                 // Utilisation de la classe Database pour récupérer les messages
-                $database = new Database("192.168.65.164", "root", "root", "connexion");
+                $database = new Database("192.168.65.164", "root", "root", "twitter");
                 $messages = $database->getMessages();
 
                 // Inversion de l'ordre des messages pour afficher les plus récents en premier

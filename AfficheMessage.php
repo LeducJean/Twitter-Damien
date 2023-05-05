@@ -8,7 +8,7 @@ class Database
     private $host = "192.168.65.164";
     private $username = "root";
     private $password = "root";
-    private $dbname = "connexion";
+    private $dbname = "twitter";
 
     // Objet de connexion à la base de données
     private $conn;
