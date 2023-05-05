@@ -1,7 +1,5 @@
 <?php
 
-
-
 try {
     $pdo = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
 } catch (PDOException $e) {
@@ -20,5 +18,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         http_response_code(500);
     }
 } else {
-    http_response_code(400);;
+    http_response_code(400);
 }
