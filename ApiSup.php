@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $stmt = $pdo->prepare($delete);
     if ($stmt->execute()) {
         http_response_code(200);
-        echo json_encode(['Tout les messages vont etre supprimer. Confirmer ?']);
+        echo json_encode(['Tous les messages ont été supprimés.']);
     } else {
         http_response_code(500);
     }
