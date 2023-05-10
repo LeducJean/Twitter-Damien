@@ -196,7 +196,6 @@ session_start(); ?>
       </div>
 
     </aside>
-
     <main>
       <div class="zone-de-recherche">
         <input type="text" placeholder="Recherche Twitter">
@@ -294,7 +293,16 @@ session_start(); ?>
 
 
                         <?php
+ // Récupération des messages avec les likes
+ $sql51 = "SELECT messages.message, user.logname FROM messages INNER JOIN user ON messages.user_id = user.id WHERE messages.likes = " . $row["likes"];
+ $result51 = mysqli_query($conn, $sql51);
 
+ // Affichage des likes des messages
+
+ if (mysqli_num_rows($result51) > 0) {
+   echo $row["likes"];
+ }
+ 
                         // endroit pour like 
                         ?>
                         <button type="submit" class="timeline-Tweet-action Icon Icon--delete" name="delete" title="Delete"></button>
