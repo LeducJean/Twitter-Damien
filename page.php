@@ -253,7 +253,7 @@ session_start(); ?>
 
                 // Affichage des messages et de la date d'envoi pour chaque message
                 foreach ($messages as $message) {
-                  
+
                   require_once("ApiSup.php");
 
                 ?>
