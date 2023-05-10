@@ -316,7 +316,6 @@ session_start(); ?>
 
                 <!-- partial -->
 
-
                 <script src="boutontweeter.js"></script>
 
                 <!-- partial -->
