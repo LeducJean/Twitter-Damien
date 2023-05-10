@@ -38,6 +38,7 @@ class Connexion
             $error = [
                 'error' => 'Invalid email or password.'
             ];
+            echo "Le mail ou le mot de passe est invalide.";
             return json_encode($error);
         }
     }
@@ -54,6 +55,7 @@ class Connexion
             $error = [
                 'error' => 'Error: ' . $sql . '<br>' . $this->conn->error
             ];
+            echo "Le mail ou le mot de passe est invalide.";
             return json_encode($error);
         }
     }
