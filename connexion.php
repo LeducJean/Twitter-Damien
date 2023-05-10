@@ -35,11 +35,7 @@ class Connexion
             header("Location: page.php");
             exit();
         } else {
-            $error = [
-                'error' => 'Invalid email or password.'
-            ];
             echo "Le mail ou le mot de passe est invalide.";
-            return json_encode($error);
         }
     }
 
@@ -52,11 +48,7 @@ class Connexion
             ];
             return json_encode($data);
         } else {
-            $error = [
-                'error' => 'Error: ' . $sql . '<br>' . $this->conn->error
-            ];
             echo "Le mail ou le mot de passe est invalide.";
-            return json_encode($error);
         }
     }
 }
