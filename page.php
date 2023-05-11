@@ -19,17 +19,14 @@ session_start(); ?>
   <?php
   require_once("connexion.php");
 
-  $ipserver = "192.168.65.164";
-  $nomBase = "twitter";
-  $loginPrivilege = "root";
-  $passPrivilege = "root";
-  
-  
+  require_once("connexionbdd.php");
+
+
   try {
-      $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-    } catch (Exception $e) {
-      echo $e->getMessage();
-    }
+    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $dbname . '', $username, $password);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
   ?>
 
   <!-- partial:index.partial.html -->
@@ -48,19 +45,13 @@ session_start(); ?>
 
           $user_id = $_SESSION["userId"];
 
-          $servername = "192.168.65.164";
-          $username = "root";
-          $password = "root";
-          $dbname = "twitter";
-
-          $conn = new mysqli($servername, $username, $password, $dbname);
+          $conn = new mysqli($ipserver, $username, $password, $dbname);
 
           if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
           }
 
 
-          $conn->close();
           ?>
           <nav>
             <nav>
@@ -138,8 +129,6 @@ session_start(); ?>
                           header("Location: index.php");
                         }
 
-
-                        $conn = mysqli_connect("192.168.65.164", "root", "root", "twitter");
 
                         if (!$conn) {
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
@@ -223,7 +212,6 @@ session_start(); ?>
           <body>
 
             <?php
-            $conn = mysqli_connect("192.168.65.164", "root", "root", "twitter");
 
 
             $sql = "SELECT messages.*, user.logname FROM messages 
@@ -240,7 +228,6 @@ session_start(); ?>
                 require_once("AfficheDate.php");
 
                 // Utilisation de la classe Database pour récupérer les messages
-                $database = new Database("192.168.65.164", "root", "root", "twitter");
                 $messages = $database->getMessages();
 
                 // Inversion de l'ordre des messages pour afficher les plus récents en premier

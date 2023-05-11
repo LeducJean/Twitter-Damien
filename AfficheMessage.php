@@ -1,14 +1,19 @@
 <?php
+
+require_once("connexionbdd.php");
+
 class Database
 {
+
     // Instance unique de la classe Database
     private static $instance = null;
 
+
     // Paramètres de connexion à la base de données
-    private $host = "192.168.65.164";
-    private $username = "root";
-    private $password = "root";
-    private $dbname = "twitter";
+    private $ipserver;
+    private $dbname;
+    private $username;
+    private $password;
 
     // Objet de connexion à la base de données
     private $conn;
@@ -16,7 +21,7 @@ class Database
     // Constructeur privé pour empêcher l'instanciation directe de la classe
     private function __construct()
     {
-        $this->conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
+        $this->conn = new mysqli($this->ipserver, $this->username, $this->password, $this->dbname);
 
         if ($this->conn->connect_error) {
             die("Connexion échouée : " . $this->conn->connect_error);

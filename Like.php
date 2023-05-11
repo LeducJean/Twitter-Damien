@@ -1,4 +1,9 @@
 <?php
+
+
+require_once("connexionbdd.php");
+
+
 class LIKE
 {
     private $conn;
@@ -48,7 +53,6 @@ class LIKE
     }
 }
 // Connexion à la base de données
-$conn = new PDO("mysql:host=192.168.65.164;dbname=twitter", "root", "root");
 
 // Création de l'objet Message
 

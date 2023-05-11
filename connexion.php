@@ -1,19 +1,23 @@
 <?php
+
+require_once("connexionbdd.php");
+
+
 class Connexion
 {
-    private $servername;
+    private $ipserver;
     private $username;
     private $password;
     private $dbname;
     private $conn;
 
-    public function __construct($servername, $username, $password, $dbname)
+    public function __construct($ipserver, $username, $password, $dbname)
     {
-        $this->servername = $servername;
+        $this->ipserver = $ipserver;
         $this->username = $username;
         $this->password = $password;
         $this->dbname = $dbname;
-        $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $this->conn = new mysqli($this->ipserver, $this->username, $this->password, $this->dbname);
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }

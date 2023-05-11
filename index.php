@@ -1,6 +1,6 @@
 <?php
 require_once('connexion.php');
-$connexion = new Connexion('192.168.65.164', 'root', 'root', 'twitter');
+require_once("connexionbdd.php");
 
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (isset($_POST["connexion"])) {
 		$email = $_POST["logemail"];
 		$password = $_POST["logpass"];
-		$connexion->login($email, $password);
+		$connC->login($email, $password);
 	}
 
 	// Registration
@@ -18,10 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$name = $_POST["logname"];
 		$email = $_POST["logemail"];
 		$password = $_POST["logpass"];
-		$connexion->register($name, $email, $password);
+		$connC->register($name, $email, $password);
 	}
 }
-
 
 ?>
 

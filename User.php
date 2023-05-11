@@ -1,21 +1,21 @@
 <?php
+
+require_once("connexionbdd.php");
+
+
 class User
 {
     private $conn;
 
-    public function __construct()
+    public function __construct($ipserver, $username, $password, $dbname)
     {
-        $servername = "192.168.65.164";
-        $username = "root";
-        $password = "root";
-        $dbname = "twitter";
-
-        $this->conn = new mysqli($servername, $username, $password, $dbname);
+        $this->conn = new mysqli($ipserver, $username, $password, $dbname);
 
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }
     }
+
 
     public function getUserName($user_id)
     {

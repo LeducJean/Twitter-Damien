@@ -1,7 +1,11 @@
 <?php
 
+
+require_once("connexionbdd.php");
+
+
 try {
-    $pdo = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+    $pdo = new PDO('mysql:host=' . $ipserver . ';dbname=' . $dbname . '', $username, $password);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);

@@ -1,4 +1,7 @@
 <?php
+
+require_once("connexionbdd.php");
+
 // Connexion à la base de données
 class Database
 {
