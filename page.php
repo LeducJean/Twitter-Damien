@@ -13,28 +13,23 @@ session_start(); ?>
   <link rel="stylesheet" href="pagetweet.css">
   <link rel="stylesheet" href="tweet.css">
   <link rel="stylesheet" href="style.css">
-
-
 </head>
 
 <body>
   <?php
   require_once("connexion.php");
 
-
   $ipserver = "192.168.65.164";
   $nomBase = "twitter";
   $loginPrivilege = "root";
   $passPrivilege = "root";
-
+  
+  
   try {
-    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-  } catch (Exception $e) {
-    echo $e->getMessage();
-  }
-
-
-
+      $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
   ?>
 
   <!-- partial:index.partial.html -->
