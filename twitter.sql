@@ -90,7 +90,6 @@ INSERT INTO `user` (`id`, `logname`, `logpass`, `logemail`) VALUES
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id_2` (`user_id`,`message_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `message_id` (`message_id`);
 
