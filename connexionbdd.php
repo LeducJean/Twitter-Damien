@@ -20,3 +20,9 @@ function bdd($ipbdd, $usernamebdd, $passwordbdd, $namebdd)
     $passwordbdd = "root";
     $namebdd = "twitter";
 }
+
+/* Modif aussi dans :
+
+    
+
+*/

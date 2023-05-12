@@ -5,10 +5,8 @@ class Database
 
     public function __construct()
     {
-        $ipbdd = "192.168.65.164";
-        $usernamebdd = "root";
-        $passwordbdd = "root";
-        $namebdd = "twitter";
+
+        require_once('connexionbdd.php');
 
         $this->conn = new mysqli($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
 

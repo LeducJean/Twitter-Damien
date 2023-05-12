@@ -1,6 +1,5 @@
 <?php
 require_once('connexion.php');
-require_once('connexionbdd.php');
 
 class Message
 {
@@ -21,9 +20,14 @@ class Message
       return "Le texte doit contenir au moins 3 caractères.";
     }
 
+
+    require_once('connexionbdd.php');
+    
+    $conn = mysqli_connect($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
     $texte = mysqli_real_escape_string($this->conn, $inputText);
     $dateHeure = date('Y-m-d H:i:s');
     $sql = "INSERT INTO messages (user_id, message, Date) VALUES ('$this->user_id', '$texte', '$dateHeure')";
+    $resultInsert = mysqli_query($conn, $sql);
 
 
     if (mysqli_query($this->conn, $sql)) {
