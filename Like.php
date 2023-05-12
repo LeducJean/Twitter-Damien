@@ -1,8 +1,6 @@
 <?php
 
-
-require_once("connexionbdd.php");
-
+require_once('connexionbdd.php');
 
 class LIKE
 {
@@ -53,8 +51,7 @@ class LIKE
     }
 }
 // Connexion à la base de données
-
-// Création de l'objet Message
+$conn = new PDO("mysql:host=$ipbdd;dbname=$namebdd", $usernamebdd, $passwordbdd);
 
 
 // Récupération de l'ID du message et de l'utilisateur

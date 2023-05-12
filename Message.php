@@ -1,5 +1,6 @@
 <?php
 require_once('connexion.php');
+require_once('connexionbdd.php');
 
 class Message
 {
@@ -38,7 +39,7 @@ class Message
 if (isset($_POST['etext'])) {
   $inputText = $_POST["etext"];
 
-  $conn = mysqli_connect('192.168.65.164', 'root', 'root', 'twitter');
+  $conn = mysqli_connect($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
   if (!$conn) {
     die("La connexion a échoué: " . mysqli_connect_error());
   }

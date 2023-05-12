@@ -18,15 +18,14 @@ session_start(); ?>
 <body>
   <?php
   require_once("connexion.php");
-
-  require_once("connexionbdd.php");
-
-
+  require_once('connexionbdd.php');
+  
+  
   try {
-    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $dbname . '', $username, $password);
-  } catch (Exception $e) {
-    echo $e->getMessage();
-  }
+      $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
   ?>
 
   <!-- partial:index.partial.html -->
@@ -45,13 +44,14 @@ session_start(); ?>
 
           $user_id = $_SESSION["userId"];
 
-          $conn = new mysqli($ipserver, $username, $password, $dbname);
+          $conn = new mysqli($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
 
           if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
           }
 
 
+          $conn->close();
           ?>
           <nav>
             <nav>
@@ -129,6 +129,8 @@ session_start(); ?>
                           header("Location: index.php");
                         }
 
+
+                        $conn = mysqli_connect($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
 
                         if (!$conn) {
                           die("La connexion à la base de données a échoué: " . mysqli_connect_error());
@@ -212,6 +214,7 @@ session_start(); ?>
           <body>
 
             <?php
+            $conn = mysqli_connect($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
 
 
             $sql = "SELECT messages.*, user.logname FROM messages 
@@ -228,6 +231,7 @@ session_start(); ?>
                 require_once("AfficheDate.php");
 
                 // Utilisation de la classe Database pour récupérer les messages
+                $database = new Database($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
                 $messages = $database->getMessages();
 
                 // Inversion de l'ordre des messages pour afficher les plus récents en premier

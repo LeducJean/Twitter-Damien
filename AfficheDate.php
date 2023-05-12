@@ -1,7 +1,4 @@
 <?php
-
-require_once("connexionbdd.php");
-
 // Connexion à la base de données
 class Database
 {
@@ -64,9 +61,6 @@ function formatDate($date)
 {
     return date("d/m/Y H:i:s", strtotime($date));
 }
-
-// Utilisation de la classe Database pour récupérer les messages
-$database = new Database("192.168.65.164", "root", "root", "twitter");
 
 
 // Stockage des messages dans un tableau

@@ -1,6 +1,10 @@
 <?php
 require_once('connexion.php');
-require_once("connexionbdd.php");
+require_once('connexionbdd.php');
+
+
+$newConn = new Connexion($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
+
 
 // Check if form is submitted for login or registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (isset($_POST["connexion"])) {
 		$email = $_POST["logemail"];
 		$password = $_POST["logpass"];
-		$connC->login($email, $password);
+		$newConn->login($email, $password);
 	}
 
 	// Registration
@@ -18,9 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$name = $_POST["logname"];
 		$email = $_POST["logemail"];
 		$password = $_POST["logpass"];
-		$connC->register($name, $email, $password);
+		$newConn->register($name, $email, $password);
 	}
 }
+
 
 ?>
 
