@@ -5,28 +5,6 @@ require_once('connexionbdd.php');
 
 $newConn = new Connexion($ipbdd, $usernamebdd, $passwordbdd, $namebdd);
 
-
-// Check if form is submitted for login or registration
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	session_start();
-
-	// Login
-	if (isset($_POST["connexion"])) {
-		$email = $_POST["logemail"];
-		$password = $_POST["logpass"];
-		$newConn->login($email, $password);
-	}
-
-	// Registration
-	if (isset($_POST["inscription"])) {
-		$name = $_POST["logname"];
-		$email = $_POST["logemail"];
-		$password = $_POST["logpass"];
-		$newConn->register($name, $email, $password);
-	}
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +47,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 													<i class="input-icon uil uil-lock-alt cadenaconnexion"></i>
 												</div>
 												<div class="form-group">
+													<?php
+													// Check if form is submitted for login or registration
+													if ($_SERVER["REQUEST_METHOD"] == "POST") {
+														session_start();
+
+														// Login
+														if (isset($_POST["connexion"])) {
+															$email = $_POST["logemail"];
+															$password = $_POST["logpass"];
+															$newConn->login($email, $password);
+														}
+
+														// Registration
+														if (isset($_POST["inscription"])) {
+															$name = $_POST["logname"];
+															$email = $_POST["logemail"];
+															$password = $_POST["logpass"];
+															$newConn->register($name, $email, $password);
+														}
+													}
+													?>
 													<button type="submit" name="connexion" class="btn mt-4">Connexion</button>
 												</div>
 											</form>
