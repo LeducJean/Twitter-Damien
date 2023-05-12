@@ -19,13 +19,13 @@ session_start(); ?>
   <?php
   require_once("connexion.php");
   require_once('connexionbdd.php');
-  
-  
+
+
   try {
-      $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
-    } catch (Exception $e) {
-      echo $e->getMessage();
-    }
+    $GLOBALS["pdo"] = new PDO('mysql:host=' . $ipserver . ';dbname=' . $nomBase . '', $loginPrivilege, $passPrivilege);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
   ?>
 
   <!-- partial:index.partial.html -->
